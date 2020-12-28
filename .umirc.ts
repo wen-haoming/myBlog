@@ -15,18 +15,34 @@ export default defineConfig({
         {
           title:'业务',
           path:'/javascript/business'
+        },
+        {
+          title: 'react',
+          path: '/javascript/react'
+        },
+        {
+          title: 'vue',
+          path: '/javascript/vue'
         }
       ]
+    },
+    {
+      title: 'python',
+      children: []
+    },
+    {
+      title:'书籍',
+      children: []
     }
   ],
   menus:{
     '/javascript/base':[{
       title:'基础',
-      children:['/javascript/base']
+      children:['/javascript/base/binary']
     }],
     '/javascript/business':[{
       title:'业务',
-      children:['/javascript/business']
+      children:['/javascript/business/download','/javascript/business/abc']
     }]
   }
   // more config: https://d.umijs.org/config
