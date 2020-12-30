@@ -3,7 +3,7 @@ import { defineConfig } from 'dumi';
 export default defineConfig({
   title: '浩明啦',
   mode: 'site',
-  locales:['zh-CN', '中文'],
+  locales:[['zh-CN', '中文']],
   navs:[
     {
       title:'javascript',
@@ -15,6 +15,10 @@ export default defineConfig({
         {
           title:'业务',
           path:'/javascript/business'
+        },
+        {
+          title:'浏览器API',
+          path:'/javascript/api'
         },
         {
           title: 'react',
@@ -36,14 +40,17 @@ export default defineConfig({
     }
   ],
   menus:{
-    '/javascript/base':[{
-      title:'基础',
-      children:['/javascript/base/binary']
-    }],
-    '/javascript/business':[{
-      title:'业务',
-      children:['/javascript/business/download','/javascript/business/abc']
-    }]
+    // '/javascript/base':[{
+    //   title:'基础',
+    //   children:['/javascript/base/binary']
+    // }],
+    // '/javascript/business':[{
+    //   title:'业务',
+    //   children:['/javascript/business/download','/javascript/business/abc']
+    // }],
+    // 'javascript/api':[{
+    //   title:
+    // }]
   }
   // more config: https://d.umijs.org/config
 });
