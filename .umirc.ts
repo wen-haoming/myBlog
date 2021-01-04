@@ -37,6 +37,12 @@ export default defineConfig({
     {
       title:'书籍',
       children: []
+    },
+    {
+      title: '计算机相关',
+      children: [
+        {title: '基础',path:'/cs/base' }
+      ]
     }
   ],
   menus:{
