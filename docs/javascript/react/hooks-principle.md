@@ -12,17 +12,30 @@ group:
 
 ## 前置环境的配置搭建
 
-我们需要实现 react-hooks 的基本环境
+我们简单实现 react-hooks 的基本环境，以 useState 为例。
 
-首先每个组件都有自己对应的 fiber
+你能够收获
+- hooks 的数据在 react 中是如何通过链表的形式保留下来的
+- 进一步熟悉链表的操作，比如环状链表，单向链表的简单操作。
+
+
+首先每个组件都有自己对应的 fiber, 并且每个 fiber 存储着自身的节点还有节点中一切的 hook，其中 hook 是使用链表串联起来(这也是为什么 hook 不能在条件判断中出现，这样会导致链表寻找下一个节点失败)。
+
+
+
 ```js
 const fiber = {
     stateNode:App 
 }
 
 function App(){
-    const [num,updateNum] = useState(0)
+    const [num,setNum] = useState(0)
 
+    return {
+        onClick(){
+            setNum( num => num+1)
+        }
+    }
 }
 ```
 
@@ -56,7 +69,7 @@ const fiber = {
 }
 
 function schedule(){
-    workInProgressHooks = fiber.stateNode
+    workInProgressHooks = fiber.memoizedState
    const app =  fiber.stateNode();// 触发组件的render
     isMount = false;
     return app
@@ -81,7 +94,7 @@ function useState(initialState){
 
 // 支撑我们mini react-hooks能运行起来需要这个 schedule 函数
 function schedule(){
-    workInProgressHooks = fiber.stateNode
+    workInProgressHooks = fiber.memoizedState
    const app =  fiber.stateNode();// 触发组件的render
     isMount = false;
     return app
@@ -136,3 +149,5 @@ function dispatchAction(){
 }
 
 ```
+
+## 编写 dispatchAction
