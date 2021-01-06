@@ -9,55 +9,62 @@ const fiber = {
 
 function useState(initialState) {
     let hook;
+
     if (isMount) {
         hook = {
-            memoizedState: initialState, // 创建的时候对应的 hook 的 memoizedState 就是 initialState
-            next: null,
             queue: {
-                pending: null // 如果我们调用多次 action 的时候就会把它放进
-            }
+                pending: null
+            },
+            memoizedState: initialState,
+            next: null
         }
         if (!fiber.memoizedState) {
-            fiber.memoizedState = hook; // 如果没有值的话就是第一个
+            fiber.memoizedState = hook;
         } else {
-            workInProgressHook.next = hook
+            workInProgressHook.next = hook;
         }
         workInProgressHook = hook;
     } else {
-        hook = workInProgressHook
+        hook = workInProgressHook;
         workInProgressHook = workInProgressHook.next;
     }
-    let baseState = hook.memoizedState
 
+    let baseState = hook.memoizedState;
     if (hook.queue.pending) {
         let firstUpdate = hook.queue.pending.next;
+
         do {
             const action = firstUpdate.action;
-            baseState = action(baseState)
-            firstUpdate = firstUpdate.next
-        } while (firstUpdate !== hook.queue.pending.next)
+            baseState = action(baseState);
+            firstUpdate = firstUpdate.next;
+        } while (firstUpdate !== hook.queue.pending)
+
         hook.queue.pending = null;
     }
     hook.memoizedState = baseState;
+
     return [baseState, dispatchAction.bind(null, hook.queue)];
 }
 
 function dispatchAction(queue, action) {
+    // 创建update
     const update = {
-        action,
-        next: null
+      action,
+      next: null
     }
-
-    if (queue.pending === null) { // 实现一个环状链表
-        // u0 -> u0 -> u0
-        update.next = update;
+  
+    // 环状单向链表操作
+    if (queue.pending === null) {
+      update.next = update;
     } else {
-        update.next = queue.pending.next
-        queue.pending.next = update
+      update.next = queue.pending.next;
+      queue.pending.next = update;
     }
-    queue.pending = update
-    schedule()
-}
+    queue.pending = update;
+  
+    // 模拟React开始调度更新
+    schedule();
+  }
 
 // 支撑我们mini react-hooks能运行起来需要这个 schedule 函数
 function schedule() {
