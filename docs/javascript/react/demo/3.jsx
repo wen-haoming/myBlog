@@ -86,7 +86,6 @@ function App(){
             setNum1(num=>num+10)
             setNum1(num=>num+10)
             setNum1(num=>num+10)
-
         }
     }
 }
