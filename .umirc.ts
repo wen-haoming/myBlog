@@ -27,6 +27,10 @@ export default defineConfig({
         {
           title: 'vue',
           path: '/javascript/vue'
+        },
+        {
+          title: 'webpack',
+          path: '/javascript/webpack'
         }
       ]
     },

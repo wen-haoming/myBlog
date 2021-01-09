@@ -185,7 +185,7 @@ function dispatchAction(queue, action) {
 
 <img src="./hook.png" />
 
-接下来就是回到 `useState` 当每次获取当前最新的 `hook` 的时候需要遍历当前 `hook` 中 `queue`  
+接下来就是回到 `useState` 当每次获取当前最新的 `hook` 的时候需要遍历当前 `hook` 中 `queue`，其中   
 
 ```js
 function useState(initialState) {
@@ -211,16 +211,15 @@ function useState(initialState) {
     }
 
     let baseState = hook.memoizedState;
-    if (hook.queue.pending) {
-        let firstUpdate = hook.queue.pending.next;
-
-        do {
-            const action = firstUpdate.action;
-            baseState = action(baseState);
-            firstUpdate = firstUpdate.next;
-        } while (firstUpdate !== hook.queue.pending)
-
-        hook.queue.pending = null;
+   if(hook.queue.pending){
+        let firstUpdate = hook.queue.pending // 先获取最开始的 update
+        do{
+            let action = firstUpdate.action // 每次都拿取其中的action
+            baseState = action(baseState) // 每次的 action 改变都更新 baseState
+            firstUpdate = firstUpdate.next // 迭代每一次
+        }while(hook.queue.pending!== firstUpdate) // 因为是环状链表，所以判断是前后如果是一致的话就退出
+        hook.queue.pending = null; // 迭代完毕就需要把 queue清空
+        hook.memoizedState = baseState // 赋值为最新的 baseState
     }
     hook.memoizedState = baseState;
 
