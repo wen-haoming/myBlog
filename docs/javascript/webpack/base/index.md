@@ -1,10 +1,10 @@
 ---
-title: webpack4基础
+title: webpack4基础以及优化方案
 nav:
   title: webpack4基础
   path: /javascript/webpack
 group:
-  title: webpack4基础
+  title: webpack4基础以及优化方案
   order: 1
 ---
 
@@ -216,4 +216,120 @@ module.exports = {
 };
 ```
 
+
+## 自动清理构建产物
+
+每次构建的时候不会清理目录，造成构建的输出目录 output 文件越来越多。
+
+命令行
+```bash
+rm -rf ./dist && webpaclk
+rimraf ./dist && webpack
+```
+
+```bash
+npm i clean-webpack-plugin -D
+```
+
+使用 `clean-webpack-plugin` 默认会删除 output 指定的输出目录
+
+```js
+  plugins:[ new CleanWebpackPlugin() ]
+```
+
+## css3的前缀增强
+
+代码层面：
+
+- 页面框架的初始化脚本
+- 上报相关打点
+- css内联避免页面闪动
+
+请求层面：
+
+- 小图片或者字体内联（url-loader）
+
+`raw-loader` 内联 html
+
+```bash
+npm i raw-loader@0.5.1 -D
+```
+
+内联 html
+
+```html
+<script>${require('raw-loader!babel-loader!./meta.html') }</script>
+```
+
+内联 js
+
+```html
+<script>${require('raw-loader!babel-loader!../node_modules/lib-flexible') }</script>
+```
+
+内联 css
+
+
+```bash
+npm i style-loader -D
+```
+
+```js
+module.exports = {
+    module:{
+        rules:[{
+          test:/\.scss$/,
+          use:[
+            {
+              loader:'style-loader',
+              options:{
+                insertAt:'top',
+                singleton:true
+              }
+            },
+            'css-loader',
+            'sass-loader'
+          ]
+        }]
+    }
+}
+```
+
+
+## 多页面应用打包通用方案
+
+多页应用好处
+
+- 业务解耦
+- 对 seo 友好
+
+每个页面对应一个`entry`，一个 `html-webpack-plugin`
+
+缺点：每次新增或删除页面需要更改 webpack 配置。
+
+动态获取 entry 和设置 `html-webpack-plugin` 数量
+
+利用 `glob.sync` 
+
+```bash
+npm i glob -D
+```
+
+```bash
+entry:glob.sync(path.join(__dirname,'./src/*/index.js'))
+```
+
+## source map 
+
+通过 source map 定位到源码
+
+开发环境开启，线上环境关闭
+
+- 线上排查问题的时候可以将 sourcemap 上传到错误监控系统。
+
+- eval：不产生 sourcemap 文件，在包代码中会使用 eval 包裹来指定对应代码。
+- source map：产生 .map 文件
+- cheap：不包含列信息
+- inline：将 map 作为 DataURI 嵌入，不单独生成 .map 文件
+- module：包含 loader sourcemap
 
