@@ -8,7 +8,7 @@ group:
   order: 1
 ---
 
-# webpack4安装
+# webpack的基础知识和优化
 
 - 安装本地的webpack
 - webpack webpack-cli -D
@@ -332,4 +332,109 @@ entry:glob.sync(path.join(__dirname,'./src/*/index.js'))
 - cheap：不包含列信息
 - inline：将 map 作为 DataURI 嵌入，不单独生成 .map 文件
 - module：包含 loader sourcemap
+
+## 提取公共资源
+
+利用 `splitChunksPlugin` 进行公共脚本分离
+
+chunk 参数说明
+
+- async 异步引入的库进行分离（默认）
+- initial 同步引入的库进行分离
+- all 所有引入的库进行分离（推荐）
+
+
+
+```js
+module.exports = {
+    optimization: {
+            optimization: {
+            splitChunks: {
+            chunks: 'async',
+            minSize: 30000,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+                vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10
+            }
+          }
+        }
+      }
+    },
+  };
+```
+
+
+1. 分离基础包
+
+test:匹配出需要分离的包，提取出来 `vendors` 需要把这个 chunk 放到 `html-webpack-plugin` 中的 `chunks` 中
+
+```js
+module.exports = {
+    optimization: {
+      splitChunks: {
+      cacheGroups: {
+        commons: {
+        test: /(react|react-dom)/,
+        name: 'vendors',
+        chunks: 'all'
+        } 
+      }
+    } 
+  },
+  plugins:[
+      new htmlwebpackplugin({
+        ...
+        chunks:['vendors']
+      })
+    ],
+};
+```
+
+2. 分离页面公共文件
+
+minChunk：设置最小引用次数 
+minuSize：分离的包体积的大小
+
+```js
+module.exports = {
+    optimization: {
+      splitChunks: {
+      minSize: 0,
+      cacheGroups: {
+          commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 2 //这个包至少被其他地方引用2次
+          } 
+        } 
+      } 
+    }
+  }
+};
+```
+
+
+##  Scope Hoisting 
+
+随着我们的模块的增多，那么最后打包出来的代码都是闭包包裹，导致体积增大，运行代码时创建的函数作用域变多，内存开销变大。
+
+- 被 webpack 转换后的模块会带上一层包裹
+- import 会被转义成 _webpack_require
+
+如果在 mode = production 的时候就会自动开启
+
+## 在 webpack 中使用 eslint
+
+```js
+npm install eslint-loader --save-dev
+```
+
+## webpack 打包组件和打包库
 
