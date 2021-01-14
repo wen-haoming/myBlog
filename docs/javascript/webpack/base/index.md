@@ -348,25 +348,31 @@ chunk 参数说明
 ```js
 module.exports = {
     optimization: {
-            optimization: {
-            splitChunks: {
-            chunks: 'async',
-            minSize: 30000,
-            maxSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            automaticNameDelimiter: '~',
-            name: true,
-            cacheGroups: {
-                vendors: {
-                test: /[\\/]node_modules[\\/]/,
-                priority: -10
-            }
-          }
+    splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      minRemainingSize: 0,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /node_modules/,
+          priority: -10,
+          reuseExistingChunk: true
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
         }
       }
-    },
+    }
+  }
+};
+
   };
 ```
 
@@ -432,9 +438,44 @@ module.exports = {
 
 ## 在 webpack 中使用 eslint
 
-```js
-npm install eslint-loader --save-dev
+[用法地址](https://github.com/webpack-contrib/eslint-webpack-plugin)
+
+```bash
+npm install eslint-webpack-plugin --save-dev
 ```
 
 ## webpack 打包组件和打包库
 
+webpack 除了可以用来打包应用，也可以用来打包 js 库。
+
+比如：实现一个大整数加法库的打包。
+
+- 需要打包压缩版和非压缩版本
+- 支持 AMD/CJS/ESM 版本
+
+支持方式
+
+```js
+// es module
+import * as largeNumber from 'large-number'
+// cjs
+cosnt largeNumbers = require('large-number')
+// amd
+require(['large-number'],function(large-number){})
+// script标签引入
+<script src="xxx"/>
+```
+
+如何将库暴露出去？
+
+- library：指定库的全局变量
+- libraryTarget：支持库引入的方式
+
+```js
+output:{
+  filename:'[name].js',
+  library:'largeNumber',
+  libraryExport:'default',
+  libraryTarget:'umd' // var, this, global 等等 暴露出去的值
+}
+```
