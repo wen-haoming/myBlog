@@ -476,6 +476,150 @@ output:{
   filename:'[name].js',
   library:'largeNumber',
   libraryExport:'default',
-  libraryTarget:'umd' // var, this, global 等等 暴露出去的值
+  libraryTarget:'umd' // var, this, global 等等 暴露出去的值的
 }
 ```
+
+
+## 构建配置抽离 npm 包
+
+通用性
+- 业务开发无需关注构建配置
+- 统一团队构建脚本
+
+可维护性
+- 构建配置合理拆分
+- README 文档，ChangeLog 文档等
+
+质量
+- 冒烟测试，单元测试，测试覆盖率
+- 持续集成
+
+## 多进程，多实例构建
+
+- HappyPack (由于后续不维护了，所以替换 thread-loader)
+- thread-loader
+- parallel-webpack
+
+(happyPack)[https://github.com/amireh/happypack#readme]
+(thread-loader)[https://github.com/webpack-contrib/thread-loader]
+
+happyPack
+
+```js
+const HappyPack = require('happypack');
+
+exports.module = {
+  rules: [
+    {
+      test: /.js$/,
+      // 1) replace your original list of loaders with "happypack/loader":
+      // loaders: [ 'babel-loader?presets[]=es2015' ],
+      use: 'happypack/loader',
+      include: [ /* ... */ ],
+      exclude: [ /* ... */ ]
+    }
+  ]
+};
+
+exports.plugins = [
+  // 2) create the plugin:
+  new HappyPack({
+    // 3) re-add the loaders you replaced above in #1:
+    loaders: [ 'babel-loader?presets[]=es2015' ]
+  })
+];
+```
+
+thread-loader
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: path.resolve('src'),
+        use: [
+          'thread-loader',
+          // your expensive loader (e.g babel-loader)
+        ],
+      },
+    ],
+  },
+};
+```
+
+## 多进程多实例：并行压缩
+
+在代码输出之前会有一个压缩阶段，可以通过多进程得压缩。
+
+- terser-webpack-plugin 开启 parallel 参数
+
+[terser-webpack-plugin](https://www.npmjs.com/package/terser-webpack-plugin)
+
+```js
+const TerserPlugin = require("terser-webpack-plugin");
+
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: 4,
+      }),
+    ],
+  },
+};
+```
+
+
+## 使用缓存来提升二次构建速度
+
+缓存思路：
+
+- babel-loader 开启缓存
+- terser-webpack-plugin 开启缓存
+- 使用 cache-loader 或者 **hard-source-webpack-plugin**
+
+## 缩小构建目标
+
+目的：尽可能少构建模块
+
+比如 babel-loader 不解析 node_modules
+
+```js
+rules:[{
+    test:/\.js$/,
+    loader:'happypack/loader',
+    exclude:'node_modules'
+}]
+```
+
+减少文件搜索范围
+
+- 优化 resolve.modules 配置（减少模块的搜索层级）
+- 优化 resolve.mainFields 配置
+- 优化 resolve.extensions 配置
+- 合理使用 alias
+
+```js
+module.exports = {
+    resolve:{
+      alias:{
+        react:path.resolve(__dirname,'./node_modules/react/dist/react.min.js'),
+      },
+      modules:[path.resolve(__dirname,'node_modules')],
+      extensions:['.js'],
+      mainFields:['main']
+    }
+}
+```
+
+## 使用 Tree Shaking 擦除无用的 js 和 css
+
+- PurifyCSS：遍历代码，识别已经用到的 CSS class
+- uncss: HTML 需要通过 jsdom 加载，所有的样式通过 PostCSS 解析，通过 document.querySelector 来识别在 html 文件里面不存在的选择器。
+
+
+
