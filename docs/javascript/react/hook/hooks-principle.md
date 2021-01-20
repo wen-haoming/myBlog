@@ -1,5 +1,6 @@
 ---
 title: react-hooks简单实现
+toc: menu
 nav:
   title: react
   path: /javascript/react

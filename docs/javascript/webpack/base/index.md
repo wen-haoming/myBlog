@@ -1,5 +1,6 @@
 ---
 title: webpack4基础以及优化方案
+toc: menu
 nav:
   title: webpack4基础
   path: /javascript/webpack

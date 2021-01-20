@@ -1,11 +1,12 @@
 ---
 title: python
+toc: menu
 nav:
   title: python
   path: python/base
 group:
-  title: a
-  order: 2
+  title: b
+  order: 1
 ---
 
 
