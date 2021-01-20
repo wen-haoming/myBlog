@@ -74,16 +74,16 @@ module.exports = {
             }]
         },{
             test:/\.png$/,
-            type:'asset/resource',
+            type:'asset/resource', //对标 file-loader
         },{
             test:/\.ico$/,
-            type:'asset/inline'
-        },{
+            type:'asset/inline' // 对标 url-loader 模块大小 limut base64 字符串
+        },{ 
             test:/\.txt$/,
-            type:'asset/source'
+            type:'asset/source' // 对标raw-loader
         },{
             test:/.jpg$/,
-            type:'asset',
+            type:'asset', //对标raw-loader
             parser:{
                 dataurlCondition:{
                     maxSize:4*1024
