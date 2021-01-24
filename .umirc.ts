@@ -62,6 +62,9 @@ export default defineConfig({
       ]
     }
   ],
+  // ssr:{
+  //   mode:'stream'
+  // }
     // '/javascript/base':[{
     //   title:'基础',
     //   children:['/javascript/base/binary']
