@@ -21,7 +21,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: docs
-          remote: /usr/share/nginx/html/
+          remote: /usr/share/nginx/html/root
           host: ${{secrets.HOST}}
           username: root
           password: ${{secrets.PASSWORD}}
