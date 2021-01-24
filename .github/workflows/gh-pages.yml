@@ -20,7 +20,7 @@ jobs:
       - name: Copy single file to remote
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: docs
+          local: dist
           remote: /usr/share/nginx/html/root
           host: ${{secrets.HOST}}
           username: root
