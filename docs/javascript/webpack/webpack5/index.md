@@ -190,7 +190,7 @@ export * 现在会在 webpack 确定有冲突的导出时显示警告。
 
 import() 允许通过 /* webpackExports: ["abc", "default"] */ 该魔法注释手动 tree shake 模块。
 
-
+目录结构
 ```diff
 webpack-demo
 |- package.json
@@ -205,6 +205,7 @@ webpack-demo
 |- /node_modules
 ```
 
+ webpack.config.js
 ```diff
 module.exports = {
 +   mode: 'production',
@@ -246,3 +247,20 @@ export function function4(){
 
 ## sideEffect
 
+[官方](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#inner-module-tree-shaking)
+
+package.json
+```json
+{
+    "slideEffects":false
+}
+```
+
+但是这样会把 css 的代码都当成副作用给忽略掉，可以这么配置
+
+package.json
+```json
+{
+    "slideEffects":["*.css"]
+}
+```
