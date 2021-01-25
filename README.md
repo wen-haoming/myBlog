@@ -1,3 +1,3 @@
 # myBlog
 
-(访问)[http://whm.zone]
+[点击访问](http://whm.zone)
