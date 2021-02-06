@@ -1,21 +1,3 @@
-# dumi app
+# myBlog
 
-## Getting Started
-
-Install dependencies,
-
-```bash
-$ npm i
-```
-
-Start the dev server,
-
-```bash
-$ npm start
-```
-
-Build site app,
-
-```bash
-$ npm run build
-```
+[点击访问](http://whm.zone)
