@@ -1,7 +1,7 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  title: '浩明啦',
+  title: 'Ming仔',
   mode: 'site',
   locales: [['zh-CN', '中文']],
   navs: [

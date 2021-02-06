@@ -10,14 +10,15 @@ group:
 
 # webpack5
 
-[官方文档](https://webpack.docschina.org/concepts/)
+
+> 本文从最简单的角度去提取有关的更新内容，更详细都需要去查看[官方文档](https://webpack.docschina.org/concepts/)
 
 - 启动命令
-- 持久化缓存
+- 长期缓存
 - 资源模块
 - modulelds & chunklds 的优化
 - 更智能的 tree shaking
-- nodejs 的polufill 脚本被移除
+- nodejs 的 polufill 脚本被移除
 - 模块联邦
 
 
@@ -28,7 +29,7 @@ group:
 
 ## 持久化缓存
 
-[官方](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#major-changes-performance)
+[官方文档](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#major-changes-performance)
 
 如果 `cache.type : "filesystem"` 时，可以配合以下选项进行配合，但是 `cache.type : "memory"` 的时候，就不能使用以下选项。
  - cache.cacheDirectory
@@ -59,7 +60,7 @@ module.exports = {
 
 ## 资源模块
 
-[官方](https://webpack.docschina.org/guides/asset-modules/)
+[官方文档](https://webpack.docschina.org/guides/asset-modules/)
 
 在 webpack 5 之前，通常使用：
 
@@ -116,9 +117,19 @@ import data from 'data:text/javascript,export default "title"'
 console.log(data);
 ```
 
-## 
+## 长期缓存
 
-从原来的
+[文件指纹相关](https://www.cnblogs.com/giggle/p/9583940.html)
+新增了长期缓存的算法。这些算法在生产模式下是默认启用的。
+
+```js
+optimization:{
+    chunkIds: "deterministic",
+    moduleIds: "deterministic",
+    mangleExports: "deterministic",
+}
+```
+
 
 ```js
   entry:'./src/index.js',
@@ -154,7 +165,7 @@ console.log(data);
 
 ## 移除 Nodejs 的 polyfill
 
-[官方更新内容](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#automatic-nodejs-polyfills-removed)
+[官方文档更新内容](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#automatic-nodejs-polyfills-removed)
 
 - webpack4带了许多Node.js核心模块的polyfill,一旦模块中使用了任何核心模块(如crypto)，这些模块就会被自动启用
 - webpack5不再自动引入这些polyfill
@@ -179,10 +190,10 @@ If you want to include a polyfill, you need to:
 
 ##  更好的 treeShaking 优化
 
-[官方更新内容](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#general-tree-shaking-improvements)
+[官方文档更新内容](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#general-tree-shaking-improvements)
 <br/>
 
-[官方文档文档](https://webpack.docschina.org/guides/tree-shaking/)
+[官方文档](https://webpack.docschina.org/guides/tree-shaking/)
 
 export * 已经得到改进，可以跟踪更多的信息，并且不再将默认导出标记为使用。
 
@@ -247,7 +258,7 @@ export function function4(){
 
 ## sideEffect
 
-[官方](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#inner-module-tree-shaking)
+[官方文档](https://webpack.docschina.org/blog/2020-10-10-webpack-5-release/#inner-module-tree-shaking)
 
 package.json
 ```json
@@ -264,3 +275,15 @@ package.json
     "slideEffects":["*.css"]
 }
 ```
+
+
+## 模块联邦
+
+[官方文档](https://webpack.docschina.org/concepts/module-federation/)
+
+1. 为了不同开发小组间共同开发一个或者多个应用。
+2. 应用将被划分为更小的应用块，一个应用块，可以是比如头部导航或者侧边栏的前端组件，也可以是数据获取逻辑的逻辑组件
+3. 每个应用块由不同的组开发
+4. 应用或应用块共享其他其他应用块或者库
+
+> 模块联邦可以取代微前端吗？

@@ -14,7 +14,6 @@ const {history} = props
     })
   },[])
 
-
   return(
   <Layout {...props}>
     <>
