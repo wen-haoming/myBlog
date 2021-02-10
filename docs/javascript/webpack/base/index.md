@@ -11,8 +11,12 @@ group:
 
 # webpack的基础知识和优化
 
+本文提供一系列在工作中较为通用的 webpack 基础和优化策略。
+
 - 安装本地的webpack
 - webpack webpack-cli -D
+
+# 基础
 
 ## entry 入口
 
@@ -112,6 +116,8 @@ libraryTarget 配合 library 此配置的作用是控制 webpack 打包的内容
 
 ## 文件指纹
 
+详细可以看看我另外一篇[链接](/javascript/webpack/chunk)
+
 文件指纹是打包后输出的文件名后缀
 
 - Hash： 和整个项目的构建有关，只要`项目文件`有修改，整个项目构建的 hash 值就会改变。 （只要有文件变化，就会改变）
@@ -192,7 +198,6 @@ module.exports = {
 |[contenthash]|文件的内容 hash，默认是 md5 生成|
 |[hash]|文件内容的 Hash，默认是 md5 生成|
 |[emoji]|一个随机的指代文件内容emoj|
-
 
 ```js
 const path = require('path');
@@ -321,6 +326,8 @@ entry:glob.sync(path.join(__dirname,'./src/*/index.js'))
 ```
 
 ## source map 
+
+有关 source map 更详细的内容可以查看[链接](/javascript/webpack/sourcemap)
 
 通过 source map 定位到源码
 
@@ -597,7 +604,7 @@ rules:[{
 }]
 ```
 
-减少文件搜索范围
+减少文件搜索范围(加快搜索时间)
 
 - 优化 resolve.modules 配置（减少模块的搜索层级）
 - 优化 resolve.mainFields 配置
@@ -621,6 +628,3 @@ module.exports = {
 
 - PurifyCSS：遍历代码，识别已经用到的 CSS class
 - uncss: HTML 需要通过 jsdom 加载，所有的样式通过 PostCSS 解析，通过 document.querySelector 来识别在 html 文件里面不存在的选择器。
-
-
-
