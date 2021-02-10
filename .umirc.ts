@@ -60,6 +60,13 @@ export default defineConfig({
       children: [
         { title: '基础', path: '/cs/base' }
       ]
+    },
+    {
+      title: '杂七杂八',
+      children: [
+        { title: '工作效率', path: '/order/efficiency' },
+        { title: '个人思考', path: '/order/think' }
+      ]
     }
   ],
   // ssr:{
