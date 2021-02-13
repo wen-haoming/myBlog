@@ -101,6 +101,57 @@ windows 的用户：
 
 那么我们就可以编写对应的插入式的模板，不过你可能好奇 `$1` 是哪里来, 为什么光标就停留在里面, 对于模板里面的环境变量可以参考这篇文章 [链接](https://blog.csdn.net/maokelong95/article/details/54379046)
 
+## 使用快捷键
+
+### 多行转一行
+
+<img width="600" src="./line.gif" />
+
+-   在 MAC 上：`control + J`
+-   在 Ubuntu/Windows 上：通过 File > Preferences > Keyboard shortcuts 打开快捷键的设置，并且绑定 editor.action.joinLines 你自己的快捷键。
+
+### 代码格式化
+
+在 Windows 上：`Shift + Alt + F`
+
+在 Mac 上：`Shift + Option + F`
+
+在 Ubuntu 上：`Ctrl + Shift + I`
+
+### 代码折叠
+
+<img width="600" src="./flod.gif" />
+
+折叠光标处未折叠的代码：
+
+在 Windows/Ubuntu 上：`Ctrl + Shift + [`
+
+在 Mac 上：`Command+ Option + [`
+
+展开光标出折叠的代码：
+
+在 Windows/Ubuntu 上：`Ctrl + Shift + ]`
+
+在 Mac 上：`Command+ Option + ]`
+
+### 跳转到特定行
+
+<img width="600" src="./linejump.gif" />
+
+使用 `Ctrl + P`，然后输入`：和要跳转的行号`。
+
+### 文件中符号跳转
+
+<img width="600" src="./iconjump.gif" />
+
+在 Windows 上：`Ctrl + Shift + o`
+
+在 Mac 上：`Command + Shift+ o`
+
+在 Ubuntu 上：`Ctrl + Shift + o`
+
+你也可以通过冒号来进行分组：`@:`
+
 ## 插件推荐
 
 官方统计比较流行的插件集[链接](https://marketplace.visualstudio.com/search?target=VSCode&category=All%20categories&sortBy=Installs)
@@ -156,3 +207,11 @@ windows 的用户：
 ### [Trailing Spaces](https://marketplace.visualstudio.com/items?itemName=shardulm94.trailing-spaces#user-content-installation)
 
 高亮那些冗余的空格，可以快速删掉。
+
+### [Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree)
+
+这个插件的使用场景是，你看完代码加了下面这个注释 ：`// TODO xxx` 以后会扩展这部分功能 当然，不知道这个「以后」是什么时候，一不小心以后变成遥遥无期，一部分原因是不想改，另一部分原因是写下这段注释的人时间久了就忘记了，这时候你需要「 TODO Tree 插件」，我们可以更方便的管理代码中的此类注释。
+
+### [Bookmarks](https://marketplace.visualstudio.com/items?itemName=alefragnani.Bookmarks)
+
+「书签」这个插件的功能就和它名字一样直接，没错它就是一个你的源码书签，当我们看大工程源码的时候，往往需要在成千上万个源文件之间跳转，此外， Bookmarks 能帮你方便的创建和管理书签，看到哪个位置想加个书签就按快捷键 `Ctrl + Alt + K` or `command + option + k` ，多按一次就是删除，不仅如此他还提供了在书签之前跳跃和查看管理的功能，更多功能可以自己体验，反正我看大工程源码用这个很爽。
