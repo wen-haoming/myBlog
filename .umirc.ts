@@ -81,9 +81,7 @@ export default defineConfig({
         return env === 'development'
             ? {}
             : {
-                  ssr: {
-                      mode: 'stream',
-                  },
+                  ssr: {},
                   exportStatic: {},
               };
     })(),
