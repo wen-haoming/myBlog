@@ -16,7 +16,7 @@ jobs:
     #   - run: sshpass -p ${{ secrets.PASSWORD }} scp -P 22 ./dist.zip root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
     #   - run: scp -r ./dist.zip  root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
       - name: Copy single file to remote
-        uses: garygrossgarten/github-action-scp
+        uses: garygrossgarten/github-action-scp@release
         with:
           local: /dist.zip
           remote: /usr/share/nginx/html/root/root
