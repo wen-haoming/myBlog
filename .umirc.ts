@@ -1,77 +1,85 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  title: 'Ming仔',
-  mode: 'site',
-  locales: [['zh-CN', '中文']],
-  navs: [
-    {
-      title: 'javascript',
-      children: [
+    title: 'Ming仔',
+    mode: 'site',
+    locales: [['zh-CN', '中文']],
+    navs: [
         {
-          title: '基础',
-          path: '/javascript/base'
+            title: '前端',
+            children: [
+                {
+                    title: '基础',
+                    path: '/javascript/base',
+                },
+                {
+                    title: '业务',
+                    path: '/javascript/business',
+                },
+                {
+                    title: '浏览器API',
+                    path: '/javascript/api',
+                },
+                {
+                    title: 'react',
+                    path: '/javascript/react',
+                },
+                {
+                    title: 'vue',
+                    path: '/javascript/vue',
+                },
+                {
+                    title: 'webpack',
+                    path: '/javascript/webpack',
+                },
+                {
+                    title: '项目实践',
+                    path: '/javascript/project',
+                },
+            ],
         },
         {
-          title: '业务',
-          path: '/javascript/business'
+            title: 'python',
+            children: [
+                {
+                    title: 'python语言学习',
+                    path: '/python/base',
+                },
+                {
+                    title: 'python程序进阶',
+                    path: '/python/base2',
+                },
+                {
+                    title: '神经网络基础',
+                    path: '/python/neuralnetwork',
+                },
+                {
+                    title: 'Tensoflow',
+                    path: '/python/tensoflow',
+                },
+            ],
         },
         {
-          title: '浏览器API',
-          path: '/javascript/api'
+            title: '书籍',
+            children: [],
         },
         {
-          title: 'react',
-          path: '/javascript/react'
+            title: '计算机相关',
+            children: [{ title: '基础', path: '/cs/base' }],
         },
         {
-          title: 'vue',
-          path: '/javascript/vue'
+            title: '杂七杂八',
+            children: [
+                { title: '工作效率', path: '/order/efficiency' },
+                { title: '个人思考', path: '/order/think' },
+            ],
         },
-        {
-          title: 'webpack',
-          path: '/javascript/webpack'
-        }
-      ]
-    },
-    {
-      title: 'python',
-      children: [
-        {
-          title: 'python语言学习',
-          path: '/python/base'
-        }, {
-          title: 'python程序进阶',
-          path: '/python/base2'
-        }, {
-          title: '神经网络基础',
-          path: '/python/neuralnetwork'
-        }, {
-          title: 'Tensoflow',
-          path: '/python/tensoflow'
-        }]
-    },
-    {
-      title: '书籍',
-      children: []
-    },
-    {
-      title: '计算机相关',
-      children: [
-        { title: '基础', path: '/cs/base' }
-      ]
-    },
-    {
-      title: '杂七杂八',
-      children: [
-        { title: '工作效率', path: '/order/efficiency' },
-        { title: '个人思考', path: '/order/think' }
-      ]
-    }
-  ],
-  // ssr:{
-  //   mode:'stream'
-  // }
+    ],
+    ssr: {},
+    exportStatic: {},
+    // ssr:{
+    //   mode:'stream'
+    // }
     // '/javascript/base':[{
     //   title:'基础',
     //   children:['/javascript/base/binary']
@@ -83,5 +91,5 @@ export default defineConfig({
     // 'javascript/api':[{
     //   title:
     // }]
-  // more config: https://d.umijs.org/config
+    // more config: https://d.umijs.org/config
 });
