@@ -17,6 +17,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           target: "/usr/share/nginx/html/root/root"
       - name: executing remote ssh commands using password
