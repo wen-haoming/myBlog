@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: yarn install
       - run: yarn build
-      - run: zip dist.zip dist
+      - run: zip -r dist.zip dist
       - name: Copy single file to remote
         uses: garygrossgarten/github-action-scp@release
         with:
