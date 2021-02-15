@@ -1,5 +1,7 @@
 import { defineConfig } from 'dumi';
 
+const env = process.env.NODE_ENV;
+
 export default defineConfig({
     title: 'Ming仔',
     mode: 'site',
@@ -75,10 +77,18 @@ export default defineConfig({
             ],
         },
     ],
-    ssr: {},
-    exportStatic: {},
+    ...(() => {
+        return env === 'development'
+            ? {}
+            : {
+                  ssr: {
+                      mode: 'stream',
+                  },
+                  exportStatic: {},
+              };
+    })(),
     // ssr:{
-    //   mode:'stream'
+    //
     // }
     // '/javascript/base':[{
     //   title:'基础',

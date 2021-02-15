@@ -27,13 +27,13 @@ nav:
 npm install --global lerna
 ```
 
-## 初始化仓库
+## git 初始化仓库
 
 ```bash
 git init lerna-repo && cd lerna-repo
 ```
 
-## 初始化项目
+## lerna 初始化项目
 
 ```bash
 lerna init
@@ -115,6 +115,46 @@ yarn remove <package> --ignore-workspace-root-check # 需要上 --ignore-workspa
 
 确保项目中 **npm script** 中有 `build` 的命令
 
+我们可以自己构建拓扑排序规则，很不幸的是 yarn 的 workspace 暂时并未支持按照拓扑排序规则执行命令,虽然该 rfc 已经被 accepted，但是尚未实现, 幸运的是 lerna 支持按照拓扑排序规则执行命令, --sort 参数可以控制以拓扑排序规则执行命令
+
+```bash
+lerna run --stream --sort build
+```
+
+## 构建清理
+
+-   普通项目： 直接删除 node_modules 以及编译后的产物。
+
+-   monorepo： 不仅需要删除 root 的 node_modules 的编译产物还需要删除各个 package 里的 node_modules 以及编译产物
+
+```bash
+lerna clean -y #根目录的 npm script 上
+```
+
+## 项目发布
+
+```bash
+lerna publish
+```
+
+但是执行这个命令的话，随便修改一个都会自动修改版本号，那么我们想修改部分文件不想下次提交不会改动版本号呢？
+
+比如，我每次修改 md 文件后，发布代码不想变更版本号，在 package.json 中
+
+```diff
+  "scripts": {
+    "clean":"lerna clean -y"
+  },
++ "ignoreChanges": [
++    "**/*.md"
++  ],
+  "devDependencies": {
+    "commitizen": "^4.2.3",
+    "cz-lerna-changelog": "^2.0.3",
+    "lerna": "^3.22.1"
+  }
+```
+
 ## yarn 常用的命令
 
 | 描述               | 命令                                                                     |
@@ -127,3 +167,11 @@ yarn remove <package> --ignore-workspace-root-check # 需要上 --ignore-workspa
 | 重新获取所有的     | node_modules yarn install --force                                        |
 | 查看缓存目录       | yarn cache dir                                                           |
 | 清除本地缓存       | yarn cache clean                                                         |
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+> 文章参考： https://blog.csdn.net/i10630226/article/details/99702447
