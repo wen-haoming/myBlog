@@ -13,13 +13,12 @@ jobs:
       - run: yarn build
       - run: zip -r dist.zip dist
       - name: Copy single file to remote
-        uses: garygrossgarten/github-action-scp@release
+        uses: appleboy/scp-action@master
         with:
-          local: dist.zip
-          remote: /usr/share/nginx/html/root/root
-          host: ${{secrets.HOST}}
-          username: root
-          password: ${{secrets.PASSWORD}}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          target: "/usr/share/nginx/html/root/root"
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
