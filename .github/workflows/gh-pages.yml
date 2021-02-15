@@ -12,7 +12,9 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: zip -r dist.zip dist
-      - run: scp -r root@${{ secrets.HOST }}:./dist.zip /usr/share/nginx/html/root/root
+      - run: yum -y install sshpass
+      - run: sshpass -p ${{ secrets.PASSWORD }} scp -P 22 ./dist.zip root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
+    #   - run: scp -r ./dist.zip  root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
     #   - name: Copy single file to remote
     #     uses: appleboy/scp-action@master
     #     with:
