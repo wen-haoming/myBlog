@@ -12,25 +12,13 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: zip -r dist.zip dist
-      - run: apt-get install sshpass
-      - run: sshpass -p ${{ secrets.PASSWORD }} scp -P 22 ./dist.zip root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
-    #   - run: scp -r ./dist.zip  root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
-    #   - name: Copy single file to remote
-    #     uses: appleboy/scp-action@master
-    #     with:
-    #         host: ${{ secrets.HOST }}
-    #         username: root
-    #         password: ${{ secrets.PASSWORD }}
-    #         port: ${{ secrets.PORT }}
-    #         source: dist.zip
-    #         target: /usr/share/nginx/html/root/root
-        # uses: garygrossgarten/github-action-scp@release
-        # with:
-        #   local: dist.zip
-        #   remote: /usr/share/nginx/html/root/root
-        #   host: ${{ secrets.HOST }}
-        #   username: root
-        #   password: ${{ secrets.PASSWORD }}
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: dist.zip
+          remote: /usr/share/nginx/html/root/root
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ${{ secrets.PASSWORD }}
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
