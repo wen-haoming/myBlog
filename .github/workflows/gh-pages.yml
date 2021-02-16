@@ -8,17 +8,18 @@ jobs:
   deploy:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - run: yarn install
-      - run: yarn build
-    #   - run: tar -zcvf ./dist.tar.gz ./dist
-      - name: clear root directory
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: root
-          password: ${{ secrets.PASSWORD }}
-          script: rm -rf /usr/share/nginx/html/root/root && mkdir /usr/share/nginx/html/root/root
+    #   - uses: actions/checkout@v2
+    #   - run: yarn install
+    #   - run: yarn build
+    # #   - run: tar -zcvf ./dist.tar.gz ./dist
+    #   - name: clear root directory
+    #     uses: appleboy/ssh-action@master
+    #     with:
+    #       host: ${{ secrets.HOST }}
+    #       username: root
+    #       password: ${{ secrets.PASSWORD }}
+    #       script: rm -rf /usr/share/nginx/html/root/root && mkdir /usr/share/nginx/html/root/root
+      - run: mkdir dist2 && cd dist2 && touch a.txt
       - name: Copy single file to remote
         uses: appleboy/scp-action@master
         with:
@@ -26,7 +27,7 @@ jobs:
             username: root
             password: ${{ secrets.PASSWORD }}
             port: 22
-            source: dist
+            source: dist2
             target: /usr/share/nginx/html/root/root
     #   - name: unzip
     #     uses: appleboy/ssh-action@master
