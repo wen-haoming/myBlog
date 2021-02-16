@@ -16,13 +16,13 @@ jobs:
     #   - run: sshpass -p ${{ secrets.PASSWORD }} scp -P 22 ./dist.zip root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
     #   - run: scp -r ./dist.zip  root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
       - name: Copy single file to remote
-        uses: garygrossgarten/github-action-scp@release
+        uses: matheusvanzan/sshpass-action@v2
         with:
-          local: ./dist.zip
-          remote: /usr/share/nginx/html/root/root
           host: ${{ secrets.HOST }}
-          username: root
-          password: ${{ secrets.PASSWORD }}
+          port: 22
+          user: root
+          pass: ${{ secrets.PASSWORD }}
+          run: sshpass -p ${{ secrets.PASSWORD }} scp -P 22 ./dist.zip root@${{ secrets.HOST }}:/usr/share/nginx/html/root/root
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
