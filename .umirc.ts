@@ -6,6 +6,10 @@ export default defineConfig({
     title: 'Ming仔',
     mode: 'site',
     locales: [['zh-CN', '中文']],
+    analytics: {
+        // 百度统计代码，配置后会启用
+        baidu: 'a94adecdbc6adb8b9ba1a11306c42a7e',
+    },
     navs: [
         {
             title: '前端',
@@ -46,10 +50,6 @@ export default defineConfig({
                 {
                     title: 'python语言学习',
                     path: '/python/base',
-                },
-                {
-                    title: 'python程序进阶',
-                    path: '/python/base2',
                 },
                 {
                     title: '神经网络基础',
