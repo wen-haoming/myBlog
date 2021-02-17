@@ -90,8 +90,6 @@ else:
 
 ## while 循环
 
-while 实现无限循环
-
 ```py
 while <条件>:
     <语句块>
@@ -157,3 +155,170 @@ list(reversed(range(10)))
 ## 蒙特卡洛采样法
 
 随着计算机的出现，数学家找到了另类求解 π 的另类方法：蒙特卡洛方法，又称随机抽样或者统计试验方法
+
+# 程序的异常处理
+
+## try-except
+
+最好把所有预料到的 typeError 都写出来,
+
+```py
+try:
+    num = eval(input('请输入一个整数：'))
+    print(num**2)
+except NameError:
+    print('输入错误，请输入一个整数')
+except:
+    print('未知类型错误')
+else:
+    print('输入正确')
+finally:
+    print('怎么样都会走到这里')
+```
+
+捕捉错误信息，可以在后面跟 as xxx
+
+```py
+try:
+    num = eval(input('请输入一个整数：'))
+    print(num**2)
+except NameError as msg:
+    print('输入错误，请输入一个整数',msg)
+except:
+    print('未知类型错误')
+else:
+    print('输入正确')
+finally:
+    print('怎么样都会走到这里')
+```
+
+主动抛出错误
+
+关键字 raise expection
+
+```py
+try:
+    num = eval(input('请输入一个整数：'))
+    print(num**2)
+    raise Exception # 主动报错，但是不会走到 NameError
+except NameError as type:
+    print('输入错误，请输入一个整数',type)
+except:
+    print('未知类型错误')
+else:
+    print('输入正确')
+finally:
+    print('怎么样都会走到这里')
+```
+
+## 练习：
+
+1. 允许用户最多尝试 3 次，3 次都没猜对的话，就直接退出，如果猜对了，打印恭喜并退出，如果没猜对，打印很遗憾！
+
+```py
+for nun in range(3):
+    try:
+        age = input('请输入数字年龄：')
+        if int(age) !=  18:
+            print('很遗憾没猜对')
+            continue
+        else:
+            print('恭喜你猜对了')
+            break
+    except:
+        print('请输入正确的类型')
+
+```
+
+2. 要求使用 try...except...else...finally 编写一个用户密码输入程序，要求全部为数字，要求长度 8 位，不符合要求时抛出异常，可以用 raise 方法
+
+```py
+try:
+    account = eval(input('请输入账号'))
+    password = eval(input('请输入密码'))
+    if not(type(account) is int and type(password) is int ):
+        raise TypeError('账号或密码须为数字')
+    elif not(len(str(account)) == 8 and len(str(password)) == 8):
+        raise ValueError('账号或密码长度必须为8位')
+except TypeError as msg:
+    print(msg)
+except ValueError as msg:
+    print(msg)
+except:
+    print('未知类型')
+else:
+    print('输入正确')
+finally:
+    print('退出')
+```
+
+## 函数的定义
+
+```py
+def<函数名>(<参数列表>):
+    <函数体>
+```
+
+1. 参数可以存在默认值
+
+```py
+def repeat(str=''):
+    print(str)
+
+repeat()
+```
+
+2. 可变数量参数
+
+不确定有多少个参数的情况下,\*是一个元祖，但是携带\*的参数是一个元祖
+
+```py
+def func(x,*y):
+    print(x,max(y)) # y 是一个元祖(1,2,3)
+
+func(1,2,3,4,5)
+```
+
+3. 传参时扩展，类似 js 的扩展运算符
+
+```py
+def func2(x,*y):
+    print(x,*y)
+
+func2(*(1,2,3)) # 1 (2, 3)
+func2((1,2,3)) # (1, 2, 3)
+```
+
+4. 函数充当参数
+
+```py
+def func3(fun):
+    return fun()
+def func():
+    print('func4')
+func3(func)
+```
+
+5. 多个返回值
+
+```py
+def move(x,y):
+    return x,y
+resX,resY = move(1,2)
+print(resX,resY)
+```
+
+6. 函数嵌套
+
+```py
+def fn1():
+    def fun2():
+        return
+    def fun3():
+        return
+    def fun4():
+        return
+    return
+```
+
+## 全局变量和局部变量
