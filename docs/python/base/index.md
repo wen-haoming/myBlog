@@ -1,6 +1,5 @@
 ---
-title: python
-toc: menu
+title: Python 基本类型和方法
 nav:
     title: python
     path: /python/base
@@ -307,7 +306,7 @@ pow(2,10) #1024
 ```
 
 -   切片操作
-    -   可以通过两个索引值确定一个位置范围，返回这个范围的子串格式：<string>[<start>:<end>]
+    -   可以通过两个索引值确定一个位置范围，返回这个范围的子串格式：`<string>[<start>:<end>]`
     -   **start** 和 **end** 都是整数型数值，这个子序列从索引 **start** 开始到 索引 **end** 结束，但不包括 **end** 位置。
 
 ```py
@@ -361,7 +360,7 @@ output: xxx
 
 ### eval()函数
 
--   eval(<string>) 函数式 Python 语言中一个十分重要的函数，它能够以 Python 表达式的方式解析并执行字符串，将返回结果输出。
+-   eval(<\string>) 函数式 Python 语言中一个十分重要的函数，它能够以 Python 表达式的方式解析并执行字符串，将返回结果输出。
 
 ```py
 a = 1
@@ -430,7 +429,7 @@ print('有回车');print('有回车')
 
 ### for...in 组成的循环来遍历字符串中每个字符
 
-for <var> in <string|array>:
+for <var> in <\string|array>:
 
 ```py
 a = [1,2,3,4]
