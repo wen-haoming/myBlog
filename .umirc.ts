@@ -8,7 +8,7 @@ export default defineConfig({
     locales: [['zh-CN', '中文']],
     analytics: {
         // 百度统计代码，配置后会启用
-        baidu: 'a94adecdbc6adb8b9ba1a11306c42a7e',
+        baidu: '7bd86b51a101648b7235643dd81f5ca6',
     },
     navs: [
         {

@@ -322,3 +322,60 @@ def fn1():
 ```
 
 ## 全局变量和局部变量
+
+在函数内部的变量都是局部,如果需要修改全局的数据 需要使用关键字 `global` 去声明
+
+```py
+sideNum = 1
+def sideNumFn():
+        print(sideNum) # 1
+sideNumFn()
+
+def func5():
+    global sideNum
+    sideNum = 2
+
+func5()
+print(sideNum) # 2
+```
+
+练习：
+
+```py
+x = 1
+def func1():
+    x = 2
+    print('局部变量',x) # 2
+    def func2():
+        global x
+        x = 3
+        print('全局变量x',x) # 3
+    func2()
+    print('func1最后x',x) # 2
+print(x) # 1
+func1()
+print(x) # 3
+```
+
+## lambda 函数
+
+-   Python 语言特有的简洁函数模型
+-   Python 学习中**极为重要**一环
+-   一个合作 Python 工程师一定会善用 lambda 函数
+
+```py
+c = lambda x,y,z:x+y+z
+
+print(c(1,2,3))
+```
+
+## map()和 lambda 函数的组合使用
+
+```py
+def sq(x):
+    return x*x
+map1 =  map(sq,[y for y in range(5)])
+map2 =  map(lambda x:x*x ,[y for y in range(5)])
+
+print(*map1)
+```
