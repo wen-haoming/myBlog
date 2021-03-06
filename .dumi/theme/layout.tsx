@@ -6,8 +6,10 @@ import './layout.less';
 
 export default ({ children, ...props }) => {
     return (
-        <Layout {...props}>
-            <div>{children}</div>
-        </Layout>
+        <>
+            <Layout {...props}>
+                <div>{children}</div>
+            </Layout>
+        </>
     );
 };

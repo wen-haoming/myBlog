@@ -371,6 +371,8 @@ print(c(1,2,3))
 
 ## map()和 lambda 函数的组合使用
 
+第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。
+
 ```py
 def sq(x):
     return x*x
@@ -378,4 +380,62 @@ map1 =  map(sq,[y for y in range(5)])
 map2 =  map(lambda x:x*x ,[y for y in range(5)])
 
 print(*map1)
+```
+
+练习 1：
+
+```py
+sentence = 'Welcome To Beijing!'
+
+words = sentence.split() # 728
+
+lengths = map(lambda x:len(x),words)
+
+print(list(lengths)) # 7 2 8
+```
+
+练习 2：
+
+```py
+A = [1,2,3,4]
+B = [5,6,7,8]
+
+print(list(map(lambda x,y:x+y,A,B))) # [6, 8, 10, 12]
+```
+
+## python 内置函数
+
+[官方文档](https://docs.python.org/zh-cn/3.7/library/functions.html)
+
+<img src="./func.jpg" height="400" />
+
+## Python 迭代器
+
+Python 中，任意对象，只要定义了 _NEXT_ 方法，它就是一个迭代器。因此，Python 中的内容如列表，元祖，字典，集合，字符串等组合数据类型都可以被称作迭代器。
+
+可迭代对象就是：实现了迭代器协议的对象。
+
+```py
+for i in [1,2,3,4]:
+    print(i)
+```
+
+### Python 生成器
+
+[彻底理解生成器](https://www.cnblogs.com/liangmingshen/p/9706181.html)
+[python 生成器到底有什么优点？](https://www.zhihu.com/question/24807364)
+
+常规函数定义，但是，使用 `yield` 语句而不是使用 `return` 语句返回结果。`yield` 语句执行一次返回一个结果，在每个结果之间函数处于挂起状态，以便重启的时候继续执行。
+
+表示式：类似于列表推导，但是生成器返回按需产生结果的一个对象，而不是构建一个结果列表
+
+```py
+gensquares = (x*2 for x in range(5))
+
+def gensquares2(x):
+    for i in range(x):
+        yield i *2
+
+for i in gensquares:
+    print(i,'++')
 ```
