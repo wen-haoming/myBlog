@@ -4,7 +4,10 @@ toc: menu
 nav:
     title: monorepo
     path: /javascript/project
+bbb: 1
 ---
+
+#### 标签测试 <Badge>Hello</Badge>
 
 # 如何使用 yarn + monorepo 快速启动一个项目
 
