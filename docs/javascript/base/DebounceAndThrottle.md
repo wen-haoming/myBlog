@@ -3,6 +3,8 @@ title: 防抖与节流
 nav:
     title: 防抖与节流
     path: /javascript/base
+group:
+    title: javascript
 ---
 
 # 防抖与节流
