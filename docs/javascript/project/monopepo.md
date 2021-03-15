@@ -4,7 +4,6 @@ toc: menu
 nav:
     title: monorepo
     path: /javascript/project
-bbb: 1
 ---
 
 #### 标签测试 <Badge>Hello</Badge>
