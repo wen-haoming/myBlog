@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm run build
+      - run: yarn install
+      - run: yarn build
       - uses: actions/checkout@master
       - name: setup aliyun oss
         uses: manyuanrong/setup-ossutil@master
