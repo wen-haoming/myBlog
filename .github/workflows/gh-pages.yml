@@ -9,25 +9,25 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-        with:
-          persist-credentials: false
+#       - name: Checkout 🛎️
+#         uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+#         with:
+#           persist-credentials: false
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-        run: |
-          yarn install
-          yarn build
-        env:
-          CI: true
-      - name: setup aliyun oss
-        uses: manyuanrong/setup-ossutil@master
-        with:
-          endpoint: oss-cn-shenzhen.aliyuncs.com
-          access-key-id: ${{ secrets.OSS_KEY_ID }}
-          access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
-      - name: cp files to aliyun
-        run: ossutil cp -rf dist/ oss://wenhaoming-blog/
+#       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+#         run: |
+#           yarn install
+#           yarn build
+#         env:
+#           CI: true
+#       - name: setup aliyun oss
+#         uses: manyuanrong/setup-ossutil@master
+#         with:
+#           endpoint: oss-cn-shenzhen.aliyuncs.com
+#           access-key-id: ${{ secrets.OSS_KEY_ID }}
+#           access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
+#       - name: cp files to aliyun
+#         run: ossutil cp -rf dist/ oss://wenhaoming-blog/
       - name: Send mail
         uses: dawidd6/action-send-mail@v2
         with:
