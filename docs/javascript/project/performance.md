@@ -99,7 +99,9 @@ DNS 查找 ---> TCP 连接 ---> HTTP 请求 ---> 服务端响应 ---> 客户端�
     -   CSS, JS 合并/内联
     -   图片，音频内联（Data URI）
 
-> HTTP 性能的关键在于低延迟而不是高带宽
+<Alert type="info">
+ HTTP 性能的关键在于低延迟而不是高带宽
+</Alert>
 
 -   HTTP 2.0
     -   所有请求共用同一个链接，可以更有效的利用 TCP 链接，通过带宽来提升 HTTP 性能。
@@ -107,4 +109,33 @@ DNS 查找 ---> TCP 连接 ---> HTTP 请求 ---> 服务端响应 ---> 客户端�
     -   解决了浏览器连接数有限的问题。
     -   TCP 慢启动时间减少，拥塞和丢包回复速度更快。
 
-> 资源合并减少请求，的优化手段对于 HTTP 2.0 来说没有效果。
+<Alert type="info">
+资源合并减少请求，的优化手段对于 HTTP 2.0 来说没有效果。
+</Alert>
+
+## 页面如何变快
+
+1. 压缩
+2. 合并
+3. 延迟
+4. 直出
+
+<Alert > 移动端并发请求丢失率 3.5% </Alert>
+
+## 2.1 图片
+
+图片会不会影响 js 的执行？
+
+有可能会，在 http 1.1 和浏览器本身的并发请求数限制的问题，如果我发起了 6 张图片的并行请求，那么就会阻塞后续的 js 请求。
+
+## 图片格式的选择
+
+-   1 _ 1 **GIF** (1 _ 1 pixels, file size: 34 bytes, MIME type: image/gif)
+-   1 _ 1 **png** (1 _ 1 pixels, file size: 95 types, MIME type: image/png)
+
+<br/>
+
+-   大小比较： PNG ≈ JPG > GIF
+-   透明性： PNG > GIF > JPG
+-   色彩丰富度：JPG > PNG > GIF
+-   兼容程度： GIF ≈ JPG > PNG
