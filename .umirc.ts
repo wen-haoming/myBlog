@@ -90,14 +90,14 @@ export default defineConfig({
             ],
         },
     ],
-//     ...(() => {
-//         return env === 'development'
-//             ? {}
-//             : {
-//                   ssr: {},
-//                   exportStatic: {},
-//               };
-//     })(),
+    ...(() => {
+        return env === 'development'
+            ? {}
+            : {
+                  ssr: {},
+                  exportStatic: {},
+              };
+    })(),
     // ssr:{
     //
     // }
