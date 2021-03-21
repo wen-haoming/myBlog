@@ -28,20 +28,26 @@ jobs:
           access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
       - name: cp files to aliyun
         run: ossutil cp -rf dist/ oss://wenhaoming-blog/
-    #   - run: tar -zcvf ./dist.tar.gz ./dist
-    #   - name: clear root directory
-    #     uses: appleboy/ssh-action@master
-    #     with:
-    #       host: ${{ secrets.HOST }}
-    #       username: root
-    #       password: ${{ secrets.PASSWORD }}
-    #       script: rm -rf /usr/share/nginx/html/root/root && mkdir /usr/share/nginx/html/root/root
-    #   - name: Copy single file to remote
-    #     uses: appleboy/scp-action@master
-    #     with:
-    #         host: ${{ secrets.HOST }}
-    #         username: root
-    #         password: ${{ secrets.PASSWORD }}
-    #         port: 22
-    #         source: dist
-    #         target: /usr/share/nginx/html/root/root
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions job result
+          # Literal body:
+          body: completed successfully!
+          # Read file contents as body:
+          to: 435203093@qq.com
+          from: Luke Skywalker # <user@example.com>
+          # Optional carbon copy recipients
+          cc: kyloren@example.com,leia@example.com
+          # Optional blind carbon copy recipients
+          bcc: r2d2@example.com,hansolo@example.com
+          # Optional content type (defaults to text/plain):
+          content_type: text/html
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          # Optional attachments:
+          attachments: attachments.zip,git.diff,./dist/static/main.js
