@@ -11,11 +11,10 @@ const Header: React.FC<Omit<IRouteComponentProps, 'children'>> = props => {
         try {
             setTargetDom(document.querySelector('.markdown').firstChild);
         } catch (e) {}
-    }, []);
+    }, [props.location.pathname]);
 
     return (
         <div>
-            {' '}
             {targetDom
                 ? ReactDom.createPortal(
                       <Tooltip title="在 github 上编辑此页">
