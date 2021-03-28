@@ -1,5 +1,5 @@
 import { defineConfig } from 'dumi';
-
+const path = require('path');
 const env = process.env.NODE_ENV;
 
 export default defineConfig({

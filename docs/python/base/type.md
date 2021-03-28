@@ -3,6 +3,7 @@ title: Python 基本类型和方法
 nav:
     title: python
     path: /python/base
+order: 1
 ---
 
 ## python 语言的诞生

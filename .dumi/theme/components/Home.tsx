@@ -4,8 +4,8 @@ import { transformDate } from '../utils/transformTime';
 import { Link } from 'dumi/theme';
 
 const Home = props => {
-    console.log(props);
     const [updateList, setUpdateList] = useState([]);
+
     useEffect(() => {
         let obj = props.route.routes.reduce(
             (preObj, item, idx) => {
