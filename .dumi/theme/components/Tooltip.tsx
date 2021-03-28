@@ -26,7 +26,6 @@ const Header: React.FC<Omit<IRouteComponentProps, 'children'>> = props => {
                                   '',
                               )}.md`}
                           >
-                              {' '}
                               <EditOutlined style={{ fontSize: '16px' }} />{' '}
                           </a>
                       </Tooltip>,

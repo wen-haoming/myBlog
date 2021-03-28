@@ -16,9 +16,9 @@ group:
 -   安装本地的 webpack
 -   webpack webpack-cli -D
 
-# 基础
+## 基础
 
-## entry 入口
+### entry 入口
 
 [官方文档](https://webpack.docschina.org/concepts/entry-points/)
 
@@ -73,7 +73,7 @@ module.exports = {
 };
 ```
 
-## output 出口
+### output 出口
 
 在 webpack 中的 output 字段包含很多属性，但是我着重讲讲一些常用的 output 的字段属性。
 
@@ -113,7 +113,7 @@ module.exports = {
 
 libraryTarget 配合 library 此配置的作用是控制 webpack 打包的内容是如何暴露的，
 
-## 文件指纹
+### 文件指纹
 
 详细可以看看我另外一篇[链接](/javascript/webpack/chunk)
 
@@ -221,7 +221,9 @@ module.exports = {
 };
 ```
 
-## 自动清理构建产物
+## 配置
+
+### 自动清理构建产物
 
 每次构建的时候不会清理目录，造成构建的输出目录 output 文件越来越多。
 
@@ -242,7 +244,7 @@ npm i clean-webpack-plugin -D
 plugins: [new CleanWebpackPlugin()];
 ```
 
-## css3 的前缀增强
+### css3 的前缀增强
 
 代码层面：
 
@@ -305,7 +307,7 @@ module.exports = {
 };
 ```
 
-## 多页面应用打包通用方案
+### 多页面应用打包通用方案
 
 多页应用好处
 
@@ -328,7 +330,7 @@ npm i glob -D
 entry:glob.sync(path.join(__dirname,'./src/*/index.js'))
 ```
 
-## source map
+### source map
 
  有关 source map 更详细的内容可以查看[链接](/javascript/webpack/sourcemap)
 
@@ -344,97 +346,7 @@ entry:glob.sync(path.join(__dirname,'./src/*/index.js'))
 -   inline：将 map 作为 DataURI 嵌入，不单独生成 .map 文件
 -   module：包含 loader sourcemap
 
-## 提取公共资源
-
-利用 `splitChunksPlugin` 进行公共脚本分离
-
-chunk 参数说明
-
--   async 异步引入的库进行分离（默认）
--   initial 同步引入的库进行分离
--   all 所有引入的库进行分离（推荐）
-
-```js
-module.exports = {
-    optimization: {
-    splitChunks: {
-      chunks: 'async',
-      minSize: 20000,
-      minRemainingSize: 0,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        defaultVendors: {
-          test: /node_modules/,
-          priority: -10,
-          reuseExistingChunk: true
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
-  }
-};
-
-  };
-```
-
-1. 分离基础包
-
-test:匹配出需要分离的包，提取出来 `vendors` 需要把这个 chunk 放到 `html-webpack-plugin` 中的 `chunks` 中
-
-```js
-module.exports = {
-    optimization: {
-      splitChunks: {
-      cacheGroups: {
-        commons: {
-        test: /(react|react-dom)/,
-        name: 'vendors',
-        chunks: 'all'
-        }
-      }
-    }
-  },
-  plugins:[
-      new htmlwebpackplugin({
-        ...
-        chunks:['vendors']
-      })
-    ],
-};
-```
-
-2. 分离页面公共文件
-
-minChunk：设置最小引用次数
-minuSize：分离的包体积的大小
-
-```js
-module.exports = {
-    optimization: {
-      splitChunks: {
-      minSize: 0,
-      cacheGroups: {
-          commons: {
-          name: 'commons',
-          chunks: 'all',
-          minChunks: 2 //这个包至少被其他地方引用2次
-          }
-        }
-      }
-    }
-  }
-};
-```
-
-## Scope Hoisting
+### Scope Hoisting
 
 随着我们的模块的增多，那么最后打包出来的代码都是闭包包裹，导致体积增大，运行代码时创建的函数作用域变多，内存开销变大。
 
@@ -443,15 +355,7 @@ module.exports = {
 
 如果在 mode = production 的时候就会自动开启
 
-## 在 webpack 中使用 eslint
-
-[用法地址](https://github.com/webpack-contrib/eslint-webpack-plugin)
-
-```bash
-npm install eslint-webpack-plugin --save-dev
-```
-
-## webpack 打包组件和打包库
+### webpack 打包组件和打包库
 
 webpack 除了可以用来打包应用，也可以用来打包 js 库。
 
@@ -487,7 +391,15 @@ output:{
 }
 ```
 
-## 构建配置抽离 npm 包
+<!-- ## 在 webpack 中使用 eslint
+
+[用法地址](https://github.com/webpack-contrib/eslint-webpack-plugin)
+
+```bash
+npm install eslint-webpack-plugin --save-dev
+``` -->
+
+<!-- ## 构建配置抽离 npm 包
 
 通用性
 
@@ -502,48 +414,116 @@ output:{
 质量
 
 -   冒烟测试，单元测试，测试覆盖率
--   持续集成
+-   持续集成 -->
 
-## 多进程，多实例构建
+## 优化
 
--   HappyPack (由于后续不维护了，所以替换 thread-loader)
--   thread-loader
--   parallel-webpack
+### 打包产物分析
 
-(happyPack)[https://github.com/amireh/happypack#readme](thread-loader)[https://github.com/webpack-contrib/thread-loader]
+[时间分析](https://www.npmjs.com/package/speed-measure-webpack-plugin)
 
-happyPack
+```bash
+# 速度分析,能够把文件的速度记录下来
+npm install speed-measure-webpack-plugin --save-dev
+```
+
+[构建产物分析](https://www.npmjs.com/package/webpack-bundle-analyzer)
+
+```bash
+# 分析打包后多个 chunk 的体积
+npm install  webpack-bundle-analyzer --save-dev
+```
+
+### 缩小构建时间
+
+目的：尽可能减少系统分析文件步骤，从而提高运行效率
+
+减少文件搜索范围(加快搜索时间)
+
+-   优化 `resolve.modules` 配置（减少模块的搜索层级）
+-   优化 `resolve.mainFields` 配置
+-   优化 `resolve.extensions` 配置
+-   合理使用 alias
+
+比如 babel-loader 不解析 node_modules
 
 ```js
-const HappyPack = require('happypack');
-
-exports.module = {
-    rules: [
-        {
-            test: /.js$/,
-            // 1) replace your original list of loaders with "happypack/loader":
-            // loaders: [ 'babel-loader?presets[]=es2015' ],
-            use: 'happypack/loader',
-            include: [
-                /* ... */
-            ],
-            exclude: [
-                /* ... */
-            ],
-        },
-    ],
-};
-
-exports.plugins = [
-    // 2) create the plugin:
-    new HappyPack({
-        // 3) re-add the loaders you replaced above in #1:
-        loaders: ['babel-loader?presets[]=es2015'],
-    }),
+rules: [
+    {
+        test: /\.js$/,
+        loader: 'happypack/loader',
+        exclude: 'node_modules',
+    },
 ];
 ```
 
+```js
+module.exports = {
+    resolve: {
+        alias: {
+            react: path.resolve(
+                __dirname,
+                './node_modules/react/dist/react.min.js',
+            ),
+        },
+        modules: [path.resolve(__dirname, 'node_modules')],
+        extensions: ['.js'],
+        mainFields: ['main'],
+    },
+};
+```
+
+### 缩小打包时间
+
+-   缓存生成的 chunk
+
+```js
+module.exports = {
+    cache: true, // 缓存生成的 chunk
+};
+```
+
+### 提取公共资源(缩小打包时间 & 提升页面加载速度 )
+
+利用 [`splitChunksPlugin`](https://webpack.docschina.org/plugins/split-chunks-plugin/#optimizationsplitchunks) 进行公共脚本分离
+
+chunk 参数说明
+
+-   async 异步引入的库进行分离（默认）
+-   initial 同步引入的库进行分离
+-   all 所有引入的库进行分离（推荐）
+
+```js
+module.exports = {
+    optimization: {
+      splitChunks: {
+        minChunks: 60000,
+        chunks:'all',
+        cacheGroups: {
+            commons: {
+                test:
+            }
+        }
+      }
+    }
+  }
+};
+```
+
+### 使用 Tree Shaking 擦除无用的 js 和 css
+
+-   PurifyCSS：遍历代码，识别已经用到的 CSS class
+-   uncss: HTML 需要通过 jsdom 加载，所有的样式通过 PostCSS 解析，通过 document.querySelector 来识别在 html 文件里面不存在的选择器。
+
+### 多进程，多实例构建
+
+-   HappyPack (由于后续不维护了，所以使用 thread-loader)
+-   [thread-loader](https://www.npmjs.com/package/thread-loader)
+-   parallel-webpack
+
 thread-loader
+
+把 thread-loader 放置在其它 loader 之前，那么放置在这个 loader 之后的 loader 就会在一个单独的 worker 池中运行。
 
 ```js
 module.exports = {
@@ -553,7 +533,7 @@ module.exports = {
                 test: /\.js$/,
                 include: path.resolve('src'),
                 use: [
-                    'thread-loader',
+                    'thread-loader', // 最好是第一个
                     // your expensive loader (e.g babel-loader)
                 ],
             },
@@ -562,7 +542,88 @@ module.exports = {
 };
 ```
 
-## 多进程多实例：并行压缩
+-   thread-loader prewarming
+
+<Alert type="info">
+如果某些加载比较长时间，可以提前预热，
+</Alert>
+
+```js
+const threadLoader = require('thread-loader');
+
+threadLoader.warmup(
+    {
+        // pool options, like passed to loader options
+        // must match loader options to boot the correct pool
+    },
+    [
+        // modules to load
+        // can be any module, i. e.
+        'babel-loader',
+        'babel-preset-es2015',
+        'sass-loader',
+    ],
+);
+```
+
+并且还可以配合 cache-loader 来进行缓存
+
+### 使用缓存来提升二次构建速度
+
+缓存思路：
+
+<!-- -   babel-loader 开启缓存
+-   terser-webpack-plugin 开启缓存
+ 或者 **hard-source-webpack-plugin** -->
+
+-   使用 cache-loader
+-   babel-loader 开启缓存
+
+使用 cache-loader
+
+```js
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                include: path.resolve('src'),
+                use: [
+                    'thread-loader', // 最好是第一个
+                    'cache-loader',
+                    // your expensive loader (e.g babel-loader)
+                ],
+            },
+        ],
+    },
+};
+```
+
+> 思考： 为什么 `thread-loader` 要放在 `cache-loader` 的前面，反过来不行么，还有 `cache-loader` 原理？
+>
+> 因为 `thread-loader` 可以辅助 `cache-loader`，并且 `cache-loader` 带有 pitch 方法， 其中 pitch 的逻辑在 [github](https://github.com/webpack-contrib/cache-loader/blob/master/src/index.js#L152-L256) 上比较详细，大致原理就是其中先读取文件是否有 cacheKey 然后判断对应的 mtime。
+> 所以 `cache-loader` pitch 方法如果有返回值的话，就会取缓存，并且会阻断后续的 loader 的继续执行。
+
+---
+
+> 思考： `cache-loader` 缓存方式？
+>
+> `babel-loader` 的 cache 是根据文件内容，生成对应 hash，fs 读文件是否存在，如果有就使用缓存，没有就写入缓存到 cacheDirectory
+
+---
+
+> 思考： `babel-loader`，`cache-loader` 缓存区别，是否要保留两份，或者取其一？
+>
+> `babel-loader` 根据内容缓存，`cache-loader` 根据 mtime 缓存
+> `cache-laoder` 可以控制整个 loader 流程的缓存，而 `babel-loader` 只是缓存自己，最好两个都用，取其一也可以。
+
+---
+
+> 思考： 其他 loader 是否也需要自己的缓存？
+>
+> 使用缓存是有代价的（比如读写文件等等），必须很重的任务用才有效果，否则适得起反。
+
+### 多进程多实例：并行压缩
 
 在代码输出之前会有一个压缩阶段，可以通过多进程得压缩。
 
@@ -584,55 +645,3 @@ module.exports = {
     },
 };
 ```
-
-## 使用缓存来提升二次构建速度
-
-缓存思路：
-
--   babel-loader 开启缓存
--   terser-webpack-plugin 开启缓存
--   使用 cache-loader 或者 **hard-source-webpack-plugin**
-
-## 缩小构建目标
-
-目的：尽可能少构建模块
-
-比如 babel-loader 不解析 node_modules
-
-```js
-rules: [
-    {
-        test: /\.js$/,
-        loader: 'happypack/loader',
-        exclude: 'node_modules',
-    },
-];
-```
-
-减少文件搜索范围(加快搜索时间)
-
--   优化 resolve.modules 配置（减少模块的搜索层级）
--   优化 resolve.mainFields 配置
--   优化 resolve.extensions 配置
--   合理使用 alias
-
-```js
-module.exports = {
-    resolve: {
-        alias: {
-            react: path.resolve(
-                __dirname,
-                './node_modules/react/dist/react.min.js',
-            ),
-        },
-        modules: [path.resolve(__dirname, 'node_modules')],
-        extensions: ['.js'],
-        mainFields: ['main'],
-    },
-};
-```
-
-## 使用 Tree Shaking 擦除无用的 js 和 css
-
--   PurifyCSS：遍历代码，识别已经用到的 CSS class
--   uncss: HTML 需要通过 jsdom 加载，所有的样式通过 PostCSS 解析，通过 document.querySelector 来识别在 html 文件里面不存在的选择器。
