@@ -6,7 +6,6 @@ nav:
     path: /javascript/project
 ---
 
-#### 标签测试 <Badge>Hello</Badge>
 
 # 如何使用 yarn + monorepo 快速启动一个项目
 
@@ -76,7 +75,7 @@ workspace 是除缓存外 yarn 区别于 npm 最大的优势（高版本的 npm 
   "name": "root",
   "private": true,
 +  "workspaces": [
-+        packages/*"
++        "packages/*"
 +  ]
   "devDependencies": {
     "lerna": "^3.22.1"
