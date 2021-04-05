@@ -6,13 +6,14 @@ nav:
     path: /javascript/project
 ---
 
-#### 标签测试 <Badge>Hello</Badge>
 
-# 如何使用 yarn + monorepo 快速启动一个项目
+# monorepo
 
 > 关于为什么使用 monorepo 和它的优点，本文不做太多解释，本文只做如何依靠 [lerna](https://github.com/lerna/lerna) 来搭建 monorepo 的项目。
 
-## yarn+ monorepo 的管理方式
+## lerna 的管理方式
+
+## yarn 的管理方式
 
 -   monorepo 是管理项目的一种方式，主要是一个仓库中管理多个模块/包。
 -   monorepo 主要的好处是统一工作流和代码共享，主要依靠两个方案
@@ -76,7 +77,7 @@ workspace 是除缓存外 yarn 区别于 npm 最大的优势（高版本的 npm 
   "name": "root",
   "private": true,
 +  "workspaces": [
-+        packages/*"
++        "packages/*"
 +  ]
   "devDependencies": {
     "lerna": "^3.22.1"
