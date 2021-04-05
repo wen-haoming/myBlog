@@ -94,6 +94,20 @@ export default defineConfig({
             ],
         },
     ],
+    meta: [
+        {
+            name: 'keyword',
+            content: 'whm,博客,博客网站,生活,代码,',
+        },
+        {
+            name: 'author',
+            content: '温浩明,wenhaoming',
+        },
+        {
+            name: 'description',
+            content: '浩明的个人博客首页，浩明的技术作品，浩明的成长记录',
+        },
+    ],
     ...(() => {
         return env === 'development'
             ? {}
@@ -102,19 +116,4 @@ export default defineConfig({
                   exportStatic: {},
               };
     })(),
-    // ssr:{
-    //
-    // }
-    // '/javascript/base':[{
-    //   title:'基础',
-    //   children:['/javascript/base/binary']
-    // }],
-    // '/javascript/business':[{
-    //   title:'业务',
-    //   children:['/javascript/business/download','/javascript/business/abc']
-    // }],
-    // 'javascript/api':[{
-    //   title:
-    // }]
-    // more config: https://d.umijs.org/config
 });
