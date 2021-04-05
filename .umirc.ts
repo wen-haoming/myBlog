@@ -52,6 +52,10 @@ export default defineConfig({
                     path: '/javascript/webpack',
                 },
                 {
+                    title: 'node',
+                    path: '/javascript/node',
+                },
+                {
                     title: '项目实践',
                     path: '/javascript/project',
                 },
