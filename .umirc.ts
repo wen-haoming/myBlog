@@ -97,11 +97,11 @@ export default defineConfig({
     metas: [
         {
             name: 'keyword',
-            content: 'whm,博客,博客网站,生活,代码,',
+            content: 'whm,温浩明,Ming仔,博客,博客网站,生活,代码,',
         },
         {
             name: 'author',
-            content: '温浩明,wenhaoming',
+            content: '温浩明,明仔,Ming仔,wenhaoming',
         },
         {
             name: 'description',
