@@ -94,7 +94,7 @@ export default defineConfig({
             ],
         },
     ],
-    meta: [
+    metas: [
         {
             name: 'keyword',
             content: 'whm,博客,博客网站,生活,代码,',
