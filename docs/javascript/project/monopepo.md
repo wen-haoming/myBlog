@@ -6,23 +6,9 @@ nav:
     path: /javascript/project
 ---
 
-
 # monorepo
 
 > 关于为什么使用 monorepo 和它的优点，本文不做太多解释，本文只做如何依靠 [lerna](https://github.com/lerna/lerna) 来搭建 monorepo 的项目。
-
-## lerna 的管理方式
-
-## yarn 的管理方式
-
--   monorepo 是管理项目的一种方式，主要是一个仓库中管理多个模块/包。
--   monorepo 主要的好处是统一工作流和代码共享，主要依靠两个方案
-    -   yarn 和 lerna 一起配合
-    -   单独使用 lerna
--   [lerna](https://github.com/lerna/lerna) 项目管理，是统一多个 npm 模块的工具，维护多个包的工作流，解决包的的互相依赖，发布，以及维护等问题。
--   [yarn](https://yarn.bootcss.com/) 包管理器，依靠 **workspace** 给子包创建软链 `yarn install`，当然你不用 yarn，只使用 lerna 的 bootstarp 也可以。
-
-### 项目搭建
 
 ## 全局下载 leana
 
@@ -64,7 +50,88 @@ package.json
 }
 ```
 
-## yarn 的 workspace
+## 项目搭建
+
+## lerna 的管理方式
+
+### lerna 的[配置文件说明](https://github.com/lerna/lerna#lernajson)
+
+```json
+{
+    "version": "1.1.3", // 当前库的版本
+    "npmClient": "npm", // 允许指定命令使用的client， 默认是 npm， 可以设置成 yarn
+    "command": {
+        "publish": {
+            "ignoreChanges": [
+                // 可以指定那些目录或者文件的变更不会被publish
+                "ignored-file",
+                "*.md"
+            ]
+        },
+        "bootstrap": {
+            "ignore": "component-*", // 指定不受 bootstrap 命令影响的包
+            "npmClientArgs": ["--no-package-lock"] // 指定默认传给 lerna bootstrap 命令的参数
+        }
+    },
+    "packages": ["packages/*"] //指定包所在的目录
+}
+```
+
+### 创建 npm 包
+
+```bash
+lerna create @mo-demo/cli
+lerna create @mo-demo/cli-shared-utils
+```
+
+### 增加模块依赖
+
+```bash
+lerna add chalk // 为所有 package 增加 chalk 模块
+lerna add semver --scope <package-name> // 为 <package-name> 增加 semver 模块
+lerna add <package-name> --scope @mo-demo/cli // 增加内部模块之间的依赖
+```
+
+### 依赖包管理
+
+把 package 下所有项目的 **node_modules** 到放到 root 根目录下统一管理。
+
+```bash
+lerna bootstrap --hoist
+```
+
+由于每次都需要 --hoist 可以添加到 **lerna.json** 下默认开启此参数
+
+```json
+{
+    "packages": ["packages/*"],
+    "command": {
+        "bootstrap": {
+            "hoist": true
+        }
+    },
+    "version": "0.0.1-alpha.0"
+}
+```
+
+### 依赖包清理
+
+```bash
+lerna clean
+```
+
+能够清理 package 下所有 node_modules
+
+## yarn 的管理方式
+
+-   monorepo 是管理项目的一种方式，主要是一个仓库中管理多个模块/包。
+-   monorepo 主要的好处是统一工作流和代码共享，主要依靠两个方案
+    -   yarn 和 lerna 一起配合
+    -   单独使用 lerna
+-   [lerna](https://github.com/lerna/lerna) 项目管理，是统一多个 npm 模块的工具，维护多个包的工作流，解决包的的互相依赖，发布，以及维护等问题。
+-   [yarn](https://yarn.bootcss.com/) 包管理器，依靠 **workspace** 给子包创建软链 `yarn install`，当然你不用 yarn，只使用 lerna 的 bootstarp 也可以。
+
+### yarn 的 workspace
 
 workspace 是除缓存外 yarn 区别于 npm 最大的优势（高版本的 npm 也有了 workspace）
 
@@ -90,7 +157,7 @@ workspace 是除缓存外 yarn 区别于 npm 最大的优势（高版本的 npm 
     -   安装 lerna 和它的依赖
     -   根目录的 node_modules 里创建软链接，链向各个 package 各个包
 
-## 创建子项目
+### 创建子项目
 
 ```bash
 lerna crate <project>
@@ -98,7 +165,7 @@ lerna crate <project>
 
 注意 `entry point` 的选项,是暴露到其他模块所连接的入口
 
-## 给子项目安装依赖
+### 给子项目安装依赖
 
 ```bash
 yarn workespace <project> add <package>
@@ -114,7 +181,7 @@ yarn add <package> --ignore-workspace-root-check # 需要上 --ignore-workspace-
 yarn remove <package> --ignore-workspace-root-check # 需要上 --ignore-workspace-root-check
 ```
 
-## 子项目的构建
+### 子项目的构建
 
 确保项目中 **npm script** 中有 `build` 的命令
 
@@ -124,7 +191,7 @@ yarn remove <package> --ignore-workspace-root-check # 需要上 --ignore-workspa
 lerna run --stream --sort build
 ```
 
-## 构建清理
+### 构建清理
 
 -   普通项目： 直接删除 node_modules 以及编译后的产物。
 
@@ -134,7 +201,7 @@ lerna run --stream --sort build
 lerna clean -y #根目录的 npm script 上
 ```
 
-## 项目发布
+### 项目发布
 
 ```bash
 lerna publish
@@ -158,7 +225,7 @@ lerna publish
   }
 ```
 
-## yarn 常用的命令
+### yarn 常用的命令
 
 | 描述               | 命令                                                                     |
 | ------------------ | ------------------------------------------------------------------------ |
