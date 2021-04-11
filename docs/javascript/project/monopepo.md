@@ -122,6 +122,12 @@ lerna clean
 
 能够清理 package 下所有 node_modules
 
+### 启动 packages 命令
+
+```bash
+lerna run <command-name> --parallel
+```
+
 ## yarn 的管理方式
 
 -   monorepo 是管理项目的一种方式，主要是一个仓库中管理多个模块/包。
