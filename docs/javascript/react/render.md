@@ -8,9 +8,7 @@ nav:
 
 # 聊一聊 react 的优化
 
-
-
-> 本文来自于 [Dan Abramov](https://twitter.com/dan_abramov)一篇文章，[Before You memo](https://overreacted.io/before-you-memo/)
+## 概述
 
 有很多 React 性能优化的文章，如果一些 state 更新缓慢的话
 
@@ -93,6 +91,8 @@ export default function App() {
 
 <code src="./demo/render/demo5.tsx" />
 
-这样带来的意义是什么？
+## 这样带来的意义是什么？
 
-在使用 `memo` 和 `useMemo` 在做优化的时候，可以从不变的部分分离出变化的部分，这样看来是没错的。但是如果使用 `children` 属性来拆分组件通常会使应用的数据流更容易追踪，并且可以减少 props 的数量, 这种模式在将来还会带来更多的性能好处,举个例子，当 [服务器组件](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html) 稳定且可被采用时，我们的 ColorPicker 组件就可以从服务器上获取到它的 children。 整个<ExpensiveTree />组件或其部分都可以在服务器上运行，即使是顶级的 React 状态更新也会在客户机上“跳过”这些部分。 这是 memo 做不到的事情!但是，这两种方法是互补的。不要忽视 state 下移(和内容提升!) 然后，如果这还不够，那就使用 Profiler 然后用 memo 来写吧。
+在使用 `memo` 和 `useMemo` 在做优化的时候，可以从不变的部分分离出变化的部分，这样看来是没错的。但是如果使用 `children` 属性来拆分组件通常会使应用的数据流更容易追踪，并且可以减少 props 的数量, 这种模式在将来还会带来更多的性能好处,举个例子，当 [服务器组件](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html) 稳定且可被采用时，我们的 ColorPicker 组件就可以从服务器上获取到它的 children。 整个`<ExpensiveTree />` 组件或其部分都可以在服务器上运行，即使是顶级的 React 状态更新也会在客户机上“跳过”这些部分。 这是 memo 做不到的事情!但是，这两种方法是互补的。不要忽视 state 下移(和内容提升!) 然后，如果这还不够，那就使用 Profiler 然后用 memo 来写吧。
+
+> 本文来自于 [Dan Abramov](https://twitter.com/dan_abramov)一篇文章，[Before You memo](https://overreacted.io/before-you-memo/)
