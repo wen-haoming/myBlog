@@ -63,9 +63,9 @@ class ProfilePage extends React.Component {
 
 <code src="./demo/compare/demo1.tsx" />
 
-1. 当使用 函数式组件 实现的 `ProfilePage`, 当前账号是 Dan 时点击 Follow 按钮，然后立马切换当前账号到 Sophie，弹出的文本将依旧是 `'Followed Dan'`。
+1. 当使用 函数式组件 实现的 `ProfilePage`, 当前人是 小明 时点击 点击 按钮，然后立马切换当前账号到 小红，弹出的文本将依旧是 `'小明'`。
 
-2. 当使用 类组件 实现的 `ProfilePage`, 弹出的文本将是 `'Followed Sophie'`：
+2. 当使用 类组件 实现的 `ProfilePage`, 弹出的文本将是 `'小红'`：
 
 很显然，其中函数组件的结果是正确的，因为我当前虽然是切换了，我前面点击的时候我**当时的状态已经是确定了**，所以这样是符合要求
 
@@ -86,8 +86,41 @@ class ProfilePage extends React.Component {
 
 ## 函数组件真正需要理解的地方
 
-正式因为不可变性(immutable)的性质，但是由于函数组件每次渲染都是一次新的执行，那么 获取对应的变量其实就是当前 `帧` 的渲染的变量，而且这些变量是不可变的，等下一次渲染来临时，这些变量都会被替换，从而刷新视图。
-
-从这个 demo 看出，从我 start 点击按钮开始，setInterval 一直执行，但是尽管 一直执行 `setCount` 方法使其重新 render ，但是取得值仍旧是 1 ，这就是因为当我开始执行 handleStartClick ，setInterval 始终保存着当前 `帧` 的执行上下文，所以一直都是 0。
+正是因为不可变性(immutable)的性质，函数组件每次渲染都是一次新的执行，那么 获取对应的变量其实就是当前渲染的变量，而且这些变量是不可变的，等下一次渲染来临时，这些变量都会被更新替换，从而刷新视图，这其实不是什么黑魔法，只是`闭包`🙄
 
 <code src="./demo/compare/demo2.tsx" />
+
+从这个 demo 看出，从我 start 点击按钮开始，setInterval 一直执行，但是尽管 一直执行 `setCount` 方法使其重新渲染 ，但是尽管是重新执行渲染取得值仍旧是 `count = 0` ，这就是因为当我开始执行 handleStartClick 的时候，
+
+```jsx | pure
+const [count, setCount] = useState(0);
+const [flag, setFlag] = useState(false);
+useEffect(() => {
+    if (!flag) return;
+    let timer = setInterval(() => {
+        setCount(count + 1); // count = 0
+    }, 1000);
+    return () => {
+        setCount(0);
+        clearInterval(timer);
+    };
+}, [flag]);
+```
+
+setInterval 的回调,只会记忆当前渲染的变量 `count = 0`，如果你需要取最新的 `count`,那么你必须在下一次当前函数渲染上下文中取。
+
+我们说了那么多函数组件渲染的概念，那么第一条 demo 中的类组件出现的问题该如何解决呢？
+
+## 如何解决类组件中存在的问题？
+
+既然类组件的状态中的 `this` 是取最新的 props，如何才能捕获当前渲染中所需要的值呢？
+
+答案很简单，利用闭包
+
+<code src="./demo/compare/demo3.tsx" />
+
+把方法都封装在 render 函数中，但是这样不就是和函数组件一样么？ 😂
+
+## 结论
+
+说了那么多，其实闭包对于我们来说实际上是帮助了不少问题，也解决到了很难注意的细微问题，因为函数组件每次都都能捕获它们所需要的值。

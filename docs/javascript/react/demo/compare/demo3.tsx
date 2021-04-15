@@ -5,17 +5,18 @@
 import React from 'react';
 
 class ProfilePageClass extends React.Component {
-    showMessage = user => {
-        alert('我是 ' + user);
-    };
-
-    handleClick = () => {
-        const { user } = this.props;
-        setTimeout(() => this.showMessage(user), 3000);
-    };
-
     render() {
-        return <button onClick={this.handleClick}>点击</button>;
+        const { user } = this.props;
+
+        const showMessage = () => {
+            alert('我是 ' + user);
+        };
+
+        const handleClick = () => {
+            setTimeout(showMessage, 3000);
+        };
+
+        return <button onClick={handleClick}>点击</button>;
     }
 }
 
