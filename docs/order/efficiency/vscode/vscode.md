@@ -4,9 +4,6 @@ toc: menu
 nav:
     title: vscode
     path: /order/efficiency
-group:
-    title: vscode
-    order: 2
 ---
 
 # 提高工作效率的 vscode 配置

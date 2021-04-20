@@ -1,10 +1,10 @@
 import React, { memo, useEffect } from 'react';
 import Layout from 'dumi-theme-default/src/layout';
-import './layout.less';
+import Layout2 from '../layouts';
+
+import './style/layout.less';
 import Tip from './components/Tooltip';
-import Footer from './components/Footer';
 import { IRouteComponentProps } from 'dumi';
-import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 const LayoutContent: React.FC<IRouteComponentProps> = ({
@@ -19,7 +19,6 @@ const LayoutContent: React.FC<IRouteComponentProps> = ({
                 <>
                     {!isExact && <Tip {...props} />}
                     {children}
-                    {!isExact && <Footer {...props} />}
                 </>
             </Layout>
         </>
