@@ -4,6 +4,7 @@ interface Props {}
 
 const Layout: React.FC<Props> = props => {
     const { children } = props;
+
     return (
         <div>
             123
