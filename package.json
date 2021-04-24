@@ -25,8 +25,7 @@
     "dumi": "^1.1.4",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
-    "yorkie": "^2.0.0",
-    "dumi-theme-ocean":"^0.0.1"
+    "yorkie": "^2.0.0"
   },
   "dependencies": {
     "@umijs/plugin-esbuild": "^1.2.0",
