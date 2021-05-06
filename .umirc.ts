@@ -85,7 +85,10 @@ export default defineConfig({
         },
         {
             title: '计算机相关',
-            children: [{ title: '基础', path: '/cs/base' }],
+            children: [
+                { title: '基础', path: '/cs/base' },
+                { title: 'git', path: '/cs/git' },
+            ],
         },
         {
             title: '杂七杂八',
