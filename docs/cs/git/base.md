@@ -1,7 +1,7 @@
 ---
-title: git基础
+title: git 基础
 nav:
-    title: git基础
+    title: git 基础
     path: /cs/git
 ---
 
@@ -102,3 +102,17 @@ $ git log # 查看谁提交的
 2. git log --oneline -n2 简化输出前两个 commit
 3. git log --all 查看全部分支的 commit
 4. git log --graph 点线图
+
+## 使用 gitk 来查看分支关系
+
+```bash
+$ gitk --all
+```
+
+## 如何对最近 commit 重命名
+
+对最近一次的 message 做变更
+
+```bash
+$ git commit --amend
+```
