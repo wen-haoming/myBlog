@@ -9,4 +9,4 @@ group:
 
 # 寻路问题
 
-<code src="./demo/FindTheWay.tsx" />
+<code src="./demo/FindTheWay.tsx" compact inline />

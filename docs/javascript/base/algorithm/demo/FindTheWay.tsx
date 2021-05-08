@@ -1,10 +1,21 @@
 import React from 'react';
-import ht from './index.html';
 
 export default () => {
     return (
-        <div>
-            <iframe src="/FindTheWay/template.html" frameborder="0"></iframe>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 750,
+                height: 750,
+                border: '1px solid #f40',
+            }}
+        >
+            <iframe
+                style={{ width: '100%', height: '100%' }}
+                src="/FindTheWay/template.html"
+            ></iframe>
         </div>
     );
 };

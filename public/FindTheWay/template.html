@@ -1,11 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    template
-</body>
-</html>
+<style>
+    .cell {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: gray;
+        border-bottom: 1px solid white;
+        border-right: 1px solid white;
+        vertical-align: middle;
+    }
+
+    #container {
+        width: 701px;
+    }
+</style>
+<div id="container"></div>
+<button onclick="(localStorage.map = JSON.stringify(map))">save</button>
+<script>
+
+    function sleep(t){
+        return new Promise((resolve)=>{
+                setTimeout(resolve,t)
+        })
+    }
+    var map = localStorage.map ? JSON.parse(localStorage.map): new Array(10000).fill(0);
+
+    let container = document.getElementById('container');
+    for (let y = 0; y < 100; y++) {
+        for (let x = 0; x < 100; x++) {
+            let cell = document.createElement('div');
+            cell.classList.add('cell')
+
+            if(map[y * 100 + x] === 1)
+                cell.style.background = '#000'
+            cell.addEventListener('mousemove', () => {
+                if (mouse) {
+                    if(clear){
+                        cell.style.background = ''
+                        map[y * 100 + x] = 0;
+                    }else{
+                        cell.style.background = '#000'
+                        map[y * 100 + x] = 1;
+                    }
+                }
+            })
+            container.appendChild(cell)
+        }
+    }
+    let mouse = false;
+    let clear = false;
+    document.addEventListener('mousedown', (e) => {
+        e.preventDefault()
+        mouse = true;
+        clear = (e.which === 3);
+    });
+    document.addEventListener('mouseup', () => mouse = false);
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+   async function findPath(map = [], start, [endX,endY]){
+        let queue = [start];
+        map = map.slice()
+
+       async function insert([x, y]){
+            if(map[y * 100 + x] !== 0 )
+                return
+            if(x < 0 || y < 0 || x >= 100 || y >= 100)
+                return
+            map[y * 100 + x] = 2
+            container.children[y * 100 + x].style.background = 'lightgreen'
+            // await sleep(1)
+            queue.push([x,y])
+        }
+
+        while(queue.length){
+            let [x, y] = queue.shift(); //unshift pop & push shift
+            if(x === endX && y === endY){
+                return true
+            }
+           await insert([x - 1, y]);
+           await insert([x + 1, y]);
+           await insert([x, y + 1]);
+           await insert([x ,y - 1]);
+        }
+        return false
+    }
+
+</script>
