@@ -4,7 +4,7 @@ nav:
     title: 防抖与节流
     path: /javascript/base
 group:
-    title: javascript
+    title: 实践
 ---
 
 # 防抖与节流

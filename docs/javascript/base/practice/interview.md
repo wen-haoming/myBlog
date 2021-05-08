@@ -4,7 +4,7 @@ nav:
     title: js 面试题
     path: /javascript/base
 group:
-    title: javascript
+    title: 实践
 ---
 
 # js 面试题

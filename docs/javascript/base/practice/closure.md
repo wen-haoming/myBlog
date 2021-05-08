@@ -4,7 +4,7 @@ nav:
     title: js 闭包相关
     path: /javascript/base
 group:
-    title: javascript
+    title: 实践
 ---
 
 # 闭包相关

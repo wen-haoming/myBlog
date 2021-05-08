@@ -4,7 +4,7 @@ nav:
     title: 发布订阅和观察者模式
     path: /javascript/base
 group:
-    title: javascript
+    title: 实践
 ---
 
 # 发布订阅和观察者模式
