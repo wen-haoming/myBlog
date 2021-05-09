@@ -162,3 +162,17 @@ document.addEventListener('click', () => console.log('addEventListener2'));
 关于 第三个参数 `useCapture`，默认也就是 false 为`冒泡阶段`，也就是 cc > bb > aa，如果为 true 时，就是`捕获阶段`，也就是 aa > bb > cc
 
 <img src="./imgs/eventlistener.png"/>
+
+第三个参数除了可以是一个 boolean 值，还可以使一个 options
+
+```js
+addEventListener(type, listener, {
+    capture: false, // 和 `useCapture` 效果相同
+    once: false, // listener 只绑定触发一次
+    passive: false, // 不拦截默认事件
+});
+```
+
+<Alert type="warning">
+  <strong>passive</strong> 主要用于 移动端的 touch 事件，并且从 chrome56 开始，在 window、document 和 body 上注册的 touchstart 和 touchmove 事件处理函数，会默认为是 passive: true。浏览器忽略 preventDefault() 就可以第一时间滚动。
+</Alert>
