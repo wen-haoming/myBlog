@@ -17,14 +17,46 @@
 <button onclick="(localStorage.map = JSON.stringify(map))">save</button>
 <script>
 
+   // 数据初始化
+   var map = localStorage.map ? JSON.parse(localStorage.map): new Array(10000).fill(0);
+
+    // 辅助函数 sleep
     function sleep(t){
         return new Promise((resolve)=>{
                 setTimeout(resolve,t)
         })
     }
-    var map = localStorage.map ? JSON.parse(localStorage.map): new Array(10000).fill(0);
-
+    // 取最小
+    class Sorted{
+        constructor(data, compare){
+            this.data = data;
+            this.compare = compare
+        }
+        take(){
+            if(!this.data.length)return;
+            let min = this.data[0];
+            let minIndex = 0;
+            for(let i = 1; i < this.data.length; i ++){
+                if(this.compare(this.data[i],min) < 0 ){
+                    min = this.data[i]
+                    minIndex = i;
+                }
+            }
+            this.data[minIndex] = this.data[this.data.length - 1]
+            this.data.pop();
+            return min
+        }
+        insert(v){
+            this.data.push(v)
+        }
+        get length(){
+            return this.data.length
+        }
+    }
+    // 
+   
     let container = document.getElementById('container');
+
     for (let y = 0; y < 100; y++) {
         for (let x = 0; x < 100; x++) {
             let cell = document.createElement('div');
@@ -56,32 +88,51 @@
     document.addEventListener('mouseup', () => mouse = false);
     document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-   async function findPath(map = [], start, [endX,endY]){
-        let queue = [start];
-        map = map.slice()
 
-       async function insert([x, y]){
+   async function findPath(map = [], start, [endX,endY]){
+        let collection = new Sorted([start],(a,b)=>distance(a)-distance(b));
+        map = map.slice()
+        container.children[endY * 100 + endX].style.background = 'red'
+
+        function distance([x,y]){
+            return (x - endX)**2 + (y - endY) **2
+        }
+
+       async function insert([x, y],pre){
             if(map[y * 100 + x] !== 0 )
                 return
             if(x < 0 || y < 0 || x >= 100 || y >= 100)
                 return
-            map[y * 100 + x] = 2
+            map[y * 100 + x] = pre
             container.children[y * 100 + x].style.background = 'lightgreen'
-            // await sleep(1)
-            queue.push([x,y])
+            await sleep(1)
+            collection.insert([x,y])
         }
 
-        while(queue.length){
-            let [x, y] = queue.shift(); //unshift pop & push shift
+        while(collection.length){
+            let [x, y] = collection.take(); //unshift pop & push shift
             if(x === endX && y === endY){
-                return true
+                let path = [];
+                while(x !== start[0] || y !== start[1]){
+                    path.push([x,y])
+                    await sleep(1)
+                    console.log(x,y)
+                    container.children[y * 100 + x].style.backgroundColor = 'pink';
+                    [x, y] = map[y * 100 + x];
+                }
+                return path
             }
-           await insert([x - 1, y]);
-           await insert([x + 1, y]);
-           await insert([x, y + 1]);
-           await insert([x ,y - 1]);
+           await insert([x - 1, y],[x,y]);
+           await insert([x + 1, y],[x,y]);
+           await insert([x, y - 1],[x,y]);
+           await insert([x ,y + 1],[x,y]);
+
+           await insert([x - 1, y - 1],[x,y]);
+           await insert([x + 1, y - 1],[x,y]);
+           await insert([x - 1, y + 1],[x,y]);
+           await insert([x + 1 ,y + 1],[x,y]);
         }
-        return false
+        return null
     }
 
 </script>
