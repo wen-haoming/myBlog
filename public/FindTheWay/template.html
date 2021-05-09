@@ -15,6 +15,7 @@
 </style>
 <div id="container"></div>
 <button onclick="(localStorage.map = JSON.stringify(map))">save</button>
+<button onclick="findPath(map,[0,0],[50,50])">start</button>
 <script>
 
    // 数据初始化
@@ -53,8 +54,7 @@
             return this.data.length
         }
     }
-    // 
-   
+
     let container = document.getElementById('container');
 
     for (let y = 0; y < 100; y++) {
