@@ -32,10 +32,10 @@ export default defineConfig({
                     title: '基础',
                     path: '/javascript/base',
                 },
-                {
-                    title: '业务',
-                    path: '/javascript/business',
-                },
+                // {
+                //     title: '业务',
+                //     path: '/javascript/business',
+                // },
                 {
                     title: '浏览器API',
                     path: '/javascript/api',
@@ -44,18 +44,18 @@ export default defineConfig({
                     title: 'react',
                     path: '/javascript/react',
                 },
-                {
-                    title: 'vue',
-                    path: '/javascript/vue',
-                },
+                // {
+                //     title: 'vue',
+                //     path: '/javascript/vue',
+                // },
                 {
                     title: 'webpack',
                     path: '/javascript/webpack',
                 },
-                {
-                    title: 'node',
-                    path: '/javascript/node',
-                },
+                // {
+                //     title: 'node',
+                //     path: '/javascript/node',
+                // },
                 {
                     title: '项目实践',
                     path: '/javascript/project',
