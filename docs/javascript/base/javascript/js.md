@@ -197,7 +197,89 @@ sign  exponent         fraction
 > ecma262 166 page
 
 -   NumericLiteral
-    -   DecimalLiteral（小数表示）`0`，`0.`，`.2`，`1e3`
-    -   BinaryIntegerLiteral（二进制） `0b111`
-    -   OctalIntegerLiteral（10 进制）`0o10`
+    -   DecimalLiteral（小数表示）`0`，`0.`，`.2`，`1e3 = 1000`
+    -   BinaryIntegerLiteral（2 进制） `0b111`
+    -   OctalIntegerLiteral（8 进制）`0o10`
     -   HexIntegerLiteral（16 进制）`0xFF`
+
+最佳实践
+
+-   安全的整数范围
+
+```js
+Number.MAX_SAFE_INTEGER.toString(16);
+// "1fffffffffffff"
+```
+
+-   浮点数的比较（如果小于）js 的最小精度，通过比较如果两个值相减后小于等于最小精度可以认为这两个值是相等。
+
+```js
+Math.abs(0.1 + 0.2 - 0.3) <= Number.EPSILON;
+// true
+```
+
+**不过最好的方式还是转为整数进行比较。**
+
+#### [String](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+-   ASCII
+-   Unicode
+-   UCS U+0000 - U+FFFF（BMP 的范围）
+-   GB
+    -   GB2312
+    -   GBK(GB13000)
+    -   GB18030
+-   ISO-8850
+-   BIG5
+
+[背景理解](https://www.zhihu.com/question/23374078/answer/69732605)
+
+早期基本上就需要字符串的文本，还需要字符串的编码方式，所以市面上会有各种中文编码软件
+
+在 javascript 中只承认 `Unicode` 这种编码形式，不过更加准确来说是 `USC`（BMP），因为超出了 `BMP` 范围就是两个字符，需要使用 `codePointAt` 去解析。
+
+Unicode 的编码 - UTF
+
+```bash
+UTF 8 和 UTF 16 分别存 a b 两个字符的区别
+
+UTF 8   01100001 01100010
+        -------- --------
+            |        |
+            a        b
+UTF 16  00000000 01100001 00000000 01100010
+        ----------------- -----------------
+                |                 |
+                a                 b
+```
+
+<Alert >
+但是有人可能会问，如果在 js 中如果采用 UTF-16的形式，存储 ASCII 的相关字符不就很浪费？所以 UFT-8 和 UTF16 编码方式不能灵活一点吗？
+</Alert>
+
+答案肯定是灵活的，它们都不是固定长度~
+
+[知乎上面有对应的解释](https://www.zhihu.com/question/23374078/answer/24385963)
+
+##### String-Grammar
+
+> ecma262 170 page
+
+-   "abc"
+-   'abc'
+-   `abc`
+
+还有反斜杠一起配合的几种形式 `'"\bfnrtv`
+
+```
+Escape Sequence     Code Unit Value         Unicode Character Name          Symbol
+    \b                  0x0008                  BACKSPACE                    <BS>
+    \t                  0x0009                  CHARACTER TABULATION         <HT>
+    \n                  0x000A                  LINE FEED (LF)               <LF>
+    \v                  0x000B                  LINE TABULATION              <VT>
+    \f                  0x000C                  FORM FEED (FF)               <FF>
+    \r                  0x000D                  CARRIAGE RETURN (CR)         <CR>
+    \"                  0x0022                  QUOTATION MARK                 "
+    \'                  0x0027                  APOSTROPHE                     '
+    \\                  0x005C                  REVERSE SOLIDUS                \
+```
