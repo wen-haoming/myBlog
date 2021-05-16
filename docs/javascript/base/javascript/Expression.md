@@ -1,11 +1,12 @@
 ---
+
 title: 表达式
 nav:
-    title: 表达式
-    path: /javascript/base
+title: 表达式
+path: /javascript/base
 order: 3
 group:
-    title: 重学前端
+title: 重学前端
 ---# javascript Expression（表达式）
 
 > ecma262 201 page
@@ -372,9 +373,5 @@ new Object(undefined); // {} 无效
         },
     }; // 3
 ```
-
-<Alert>
-
-</Alert>
 
 <!-- ## runtime（运行时） -->
