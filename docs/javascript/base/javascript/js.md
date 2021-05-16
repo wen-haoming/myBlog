@@ -3,10 +3,10 @@ title: 词法，类型
 nav:
     title: 词法，类型
     path: /javascript/base
+order: 2
 group:
     title: 重学前端
-    order: 1
----
+---# javascript Atom（原子 ⚛）
 
 ## Unicode 👀
 

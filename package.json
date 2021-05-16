@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@umijs/plugin-analytics": "^0.2.2",
-    "dumi": "^1.1.4",
+    "dumi": "^1.1.17",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
     "yorkie": "^2.0.0"
