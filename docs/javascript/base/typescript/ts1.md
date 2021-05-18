@@ -118,7 +118,7 @@ tsc --init
     -   never
     -   高级类型
 
-## 语法
+## 类型注解
 
 (变量/函数): type // [type 为上面的数据类型 ]
 
@@ -166,17 +166,16 @@ function infiniteLoop(): never {
 }
 ```
 
-### 问题一：any 和 unknown 的区别
-
 ## 函数
 
 函数定义
 
 ```ts
-// 定义函数类型
+// 定义函数参数
 function hello(name: string): void {
     console.log('hello', name);
 }
+
 hello('xiaoming');
 
 // 没有返回值
@@ -203,24 +202,91 @@ function sum(...numbers: number[]) {
     return numbers.reduce((val, item) => (val += item), 0);
 }
 console.log(sum(1, 2, 3));
-
-// 函数重载
-let obj: any = {};
-function attr(val: string): void;
-function attr(val: number): void;
-function attr(val: any): void {
-    if (typeof val === 'string') {
-        obj.name = val;
-    } else {
-        obj.age = val;
-    }
-}
-attr('xiaoming');
-attr(9);
-attr(true);
-console.log(obj);
 ```
 
+问题：什么是函数重载
+
+```ts
+// 函数重载，当前函数可能有几张传参形式，有可能是一个参数得出不同结果，有可能是两个参数得出不同结果
+
+let obj: any = {};
+function attr(str: string): string;
+function attr(str: string, num: number): [string, number];
+
+function attr(str: string, num?: number): any {
+    if (typeof str === 'string') {
+        return str;
+    } else {
+        return [str, num];
+    }
+}
+
+let val = attr('1'); // 自动判断为 string
+let val2 = attr('1', 2); // 自动判断为 array
+```
+
+-   多种定义函数的形式
+
+```ts
+// 函数声明
+let obj: any = {};
+
+function attr(str: string): string;
+function attr(str: string, num: number): [string, number];
+
+function attr(str: any, num?: any): any {
+    if (typeof str === 'string') {
+        return str;
+    } else {
+        return [str, num];
+    }
+}
+
+let aa = attr('1'); // 自动判断为 string
+let bb = attr('1', 2); // 自动判断为 [string,number];
+
+// 表达式
+type LongHandAllowsOverloadDeclarations = {
+    (str: string): string;
+    (str: string, num: number): [string, number];
+};
+
+interface LongHandAllowsOverloadDeclarations2 {
+    (str: string): string;
+    (str: string, num: number): [string, number];
+}
+
+const func: LongHandAllowsOverloadDeclarations = (a: any) => {
+    return a;
+};
+
+let val = func('1'); // 自动判断为 string
+let val2 = func('1', 1); // 自动判断为 [string,number];
+```
+
+## 类型断言
+
+有时候依靠类型推断并不能完全得出我想要的类型，而且该类型可能不准确，等等，这时候需要使用类型断言。
+
+```ts
+interface Foo {
+    bar: number;
+    bas: string;
+}
+
+const foo = {} as Foo;
+foo.bar = 123;
+foo.bas = 'hello';
+```
+
+## 类型保护
+
 ## 接口
+
+接口可以定义一个集合，函数，还有类
+
+```ts
+//
+```
 
 ### 问题二：interface 和 type
