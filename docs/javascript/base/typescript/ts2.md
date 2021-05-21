@@ -1,7 +1,7 @@
 ---
-title: 语法
+title: 项目应用
 nav:
-    title: 语法
+    title: 项目应用
     path: /javascript/base
 group:
     title: typescript
@@ -98,49 +98,25 @@ tsc --init
 }
 ```
 
-## 基本注解
-
-```ts
-const num: number = 123;
-function identity(num: number): number {
-    return num;
-}
-```
-
 ## 数据类型
 
--   原始类型
+-   基本类型
+
     -   布尔类型（boolean）
     -   数字类型（number）
     -   字符串类型（string）
     -   symbol（Symbol）
--   数组 Array
--   对象 [object](https://www.typescriptlang.org/docs/handbook/basic-types.html#object)
--   特殊类型
-    -   any
-    -   null
-    -   undefined
+    -   数组类型（array）
+    -   object
+    -   undefined、null
+
+-   补充类型
+    -   元祖类型（tuple）
     -   void
-    -   [unknown](https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown)：[知乎一篇文章很好解释](https://zhuanlan.zhihu.com/p/104296850)，[例子](https://www.typescriptlang.org/play?#code/GYVwdgxgLglg9mABAQwBQCMBcBBATr5ATwB4BnKXGMAcwD4BKAbwChFEZgMA6AGwFMaUABaIAvOMQAGJqzaJcfKCFxIAjACYAzLIC+fHqT7tO6XgOrCxE1TLnzFypAHJyuJ7v2GWdhUpWIKED5dZh1mZn4oRAA3ZB4xFFQAbSdVJwBdeiA)
+    -   任意类型（any）
+    -   unknown
     -   never
--   [内联类型注解](#内联类型注解)
--   关键字
-    -   索引类型 keyof
-    -   映射类型 in
-    -   继承类型 extends
--   类型断言
--   类型保护
-    -   typeof
-    -   instanceof
--   联合类型 Union Types
--   交叉类型 Intersection Types
--   元组类型 Tuple
--   枚举类型 enum
--   [函数 function](#函数)
--   [接口 interface](#接口)
--   [泛型 generic](#泛型)
--   类型别名 type alias
--   内置高级类型
+    -   高级类型
 
 ## 类型注解
 
@@ -155,8 +131,6 @@ let age: number = 10;
 
 // 字符串
 let firstname: string = 'zfpx';
-
-let s: symbol = Symbol(1);
 
 // 数组（两种形式）
 let arr2: number[] = [4, 5, 6];
@@ -190,25 +164,6 @@ function error(message: string): never {
 function infiniteLoop(): never {
     while (true) {}
 }
-```
-
-## 内联类型注解
-
-内联类型能为你快速的提供一个类型注解。它可以帮助你省去为类型起名的麻烦（你可能会使用一个很糟糕的名称）。然而，如果你发现需要多次使用相同的内联注解时，那么考虑把它重构为一个接口（或者是 type alias，它会在接下来的部分提到）是一个不错的主意。
-
-[官网试一下](https://www.typescriptlang.org/play?#code/GYVwdgxgLglg9mABKSAKADgJzugzgLgG8BDfXKTGMAcwBoAjMiq6gXwEpCAoRXxTAKZQQmJFhy4urLlwA2QxADdisxAF5k4CKhL4A5AEY9DfQCY9HIA)
-
-```ts
-function func(props: { a: string; b: string }) {
-    return props;
-}
-
-let val = func({ a: '1', b: '2' });
-```
-
-## 关键字
-
-```ts
 ```
 
 ## 函数
@@ -344,19 +299,19 @@ function doSome(x: number | string) {
 接口可以定义一个集合，函数，还有类
 
 ```ts
-//1. 可选属性
+// 可选属性
 interface SquareConfig {
     color?: string;
     width?: number;
 }
 
-//2. 只读属性
+// 只读属性
 interface Point {
     readonly x: number;
     readonly y: number;
 }
 
-//3. 额外的属性检查
+// 额外的属性检查
 interface SquareConfig {
     color?: string;
     width?: number;
@@ -370,7 +325,7 @@ let mySquare = createSquare({ colour: 'red', width: 100 });
 // 但是上面会报错错误 Argument of type '{ colour: string; width: number; }' is not assignable to parameter of type 'SquareConfig'
 // 这时候我们就需要使用 字符串索引签名
 
-//4. 可索引的类型 - 字符串索引签名
+// 可索引的类型 - 字符串索引签名
 interface SquareConfig {
     color?: string;
     width?: number;
@@ -383,7 +338,7 @@ function createSquare(config: SquareConfig): any {
 
 let mySquare = createSquare({ colour: 'red', width: 100 });
 
-//5. 可索引的类型 - 数字索引签名
+//  可索引的类型 - 数字索引签名
 interface StringArray {
     [index: number]: string;
 }
@@ -393,7 +348,7 @@ myArray = ['Bob', 'Fred'];
 
 let myStr: string = myArray[0];
 
-//6. 继承接口
+// 继承接口
 interface Shape {
     color: string;
 }
@@ -406,7 +361,7 @@ let square = <Square>{};
 square.color = 'blue';
 square.sideLength = 10;
 
-//7. 继承接口 - 继承多个接口
+// 继承接口 - 继承多个接口
 interface Shape {
     color: string;
 }
@@ -419,66 +374,10 @@ interface Square extends Shape, PenStroke {
     sideLength: number;
 }
 
-let square = {} as Square;
+let square = <Square>{};
 square.color = 'blue';
 square.sideLength = 10;
 square.penWidth = 5.0;
 ```
 
-## 泛型
-
-软件工程中，我们不仅要创建一致的定义良好的 API，同时也要考虑可重用性。 组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型，这在创建大型系统时为你提供了十分灵活的功能。
-
-```ts
-// 1. 函数声明定义泛型
-function identity(arg: number): number {
-    return arg;
-}
-function identity<T>(arg: T): T {
-    return arg;
-}
-// 使用
-let output = identity<string>('myString');
-
-function loggingIdentity<T>(arg: T[]): T[] {
-    console.log(arg.length); // Array has a .length, so no more error
-    return arg;
-}
-
-// 2. 函数表达式定义泛型
-let func: <T>(str: T) => T = str => str;
-
-// 使用
-func<string>('string');
-
-// 2. interface 中定义泛型
-interface GenericIdentityFn<Type> {
-    (arg: Type): Type;
-}
-
-// 使用
-function identity<Type>(arg: Type): Type {
-    return arg;
-}
-
-let myIdentity: GenericIdentityFn<number> = identity;
-
-// 3. 类型别名使用泛型
-
-// 4. 泛型类
-
-// 5. 泛型约束
-```
-
-## 高级类型
-
-```ts
-// 1. Parial
-// 2. Required
-// 3. Pick
-// 4. Record
-// 5. Mutable
-// 6. Readonly
-// 7. ReturnType
-// 8. Extract
-```
+### 问题二：interface 和 type
