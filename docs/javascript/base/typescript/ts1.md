@@ -11,7 +11,7 @@ group:
 
 [官网](https://www.typescriptlang.org/)
 
- 一种写给人看的语言，最后顺便给机器运行一下。
+一种写给人看的语言，最后顺便给机器运行一下。
 
 # 安装和编译
 
@@ -124,7 +124,7 @@ function identity(num: number): number {
     -   [unknown](https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown)：[知乎一篇文章很好解释](https://zhuanlan.zhihu.com/p/104296850)，[例子](https://www.typescriptlang.org/play?#code/GYVwdgxgLglg9mABAQwBQCMBcBBATr5ATwB4BnKXGMAcwD4BKAbwChFEZgMA6AGwFMaUABaIAvOMQAGJqzaJcfKCFxIAjACYAzLIC+fHqT7tO6XgOrCxE1TLnzFypAHJyuJ7v2GWdhUpWIKED5dZh1mZn4oRAA3ZB4xFFQAbSdVJwBdeiA)
     -   never
 -   [内联类型注解](#内联类型注解)
--   关键字
+-   [关键字](#关键字)
     -   索引类型 keyof
     -   映射类型 in
     -   继承类型 extends
@@ -141,6 +141,8 @@ function identity(num: number): number {
 -   [泛型 generic](#泛型)
 -   类型别名 type alias
 -   内置高级类型
+
+[type 和 interface的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
 
 ## 类型注解
 
@@ -207,8 +209,20 @@ let val = func({ a: '1', b: '2' });
 ```
 
 ## 关键字
+[never与keyof的妙用](https://juejin.cn/post/6844903826558812167)
 
 ```ts
+// 1. keyof ypescript的keyof关键字，将一个类型映射为它所有成员名称的联合类型
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type K1 = keyof Person; // "name" | "age" | "location"
+type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
+type K3 = keyof { [x: string]: Person };  // string
+
 ```
 
 ## 函数
