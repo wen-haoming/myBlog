@@ -507,6 +507,23 @@ let myIdentity: GenericIdentityFn<number> = identity;
 // 4. 泛型类
 
 // 5. 泛型约束
+有时候，我们希望类型变量对应的类型上存在某些属性。这时，除非我们显式地将特定属性定义为类型变量，否则编译器不会知道它们的存在。
+
+function identity<T>(arg: T): T {
+  console.log(arg.length); // Error
+  return arg;
+}
+
+interface Length {
+  length: number;
+}
+
+function identity<T extends Length>(arg: T): T {
+  console.log(arg.length); // 可以获取length属性
+  return arg;
+}
+// T extends Length 用于告诉编译器，我们支持已经实现 Length 接口的任何类型。之后，当我们使用不含有 length 属性的对象作为参数调用 identity 函数时，TypeScript 会提示相关的错误信息
+
 ```
 
 ## 高级类型
