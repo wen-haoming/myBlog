@@ -125,11 +125,11 @@ function identity(num: number): number {
     -   never
 -   [内联类型注解](#内联类型注解)
 -   [关键字](#关键字)
-    -   索引类型 keyof
-    -   映射类型 in
-    -   继承类型 extends
--   类型断言
--   类型保护
+    -   keyof
+    -   in
+    -   extends
+-   [类型断言](#类型断言)
+-   [类型保护](#类型保护)
     -   typeof
     -   instanceof
 -   [联合类型 Union Types](#联合类型)
@@ -225,9 +225,23 @@ type K1 = keyof Person; // "name" | "age" | "location"
 type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
 type K3 = keyof { [x: string]: Person };  // string
 
-// 2. in
+// 2. in 用来遍历枚举类型：
+type Keys = "a" | "b" | "c"
 
-// 3. extends
+type Obj =  {
+  [p in Keys]: any
+} // -> { a: any, b: any, c: any }
+
+// 3. extends 有时候我们定义的泛型不想过于灵活或者说想继承某些类等，可以通过 extends 关键字添加泛型约束。
+
+interface ILengthwise {
+  length: number;
+}
+
+function loggingIdentity<T extends ILengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
 
 ```
 
@@ -334,6 +348,7 @@ let val2 = func('1', 1); // 自动判断为 [string,number];
 有时候依靠类型推断并不能完全得出我想要的类型，而且该类型可能不准确，等等，这时候需要使用类型断言。
 
 ```ts
+1. as 语法
 interface Foo {
     bar: number;
     bas: string;
@@ -342,6 +357,10 @@ interface Foo {
 const foo = {} as Foo;
 foo.bar = 123;
 foo.bas = 'hello';
+
+2. 尖括号形式
+let someValue: any = "this is a string";
+let strLength: number = (<string>someValue).length;
 ```
 
 ## 类型保护
