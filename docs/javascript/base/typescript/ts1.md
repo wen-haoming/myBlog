@@ -132,17 +132,19 @@ function identity(num: number): number {
 -   类型保护
     -   typeof
     -   instanceof
--   联合类型 Union Types
--   交叉类型 Intersection Types
--   元组类型 Tuple
--   枚举类型 enum
+-   [联合类型 Union Types](#联合类型)
+-   [交叉类型 Intersection Types](#交叉类型)
+-   [元组类型 Tuple](#元组类型)
+-   [枚举类型 enum](#枚举类型)
 -   [函数 function](#函数)
 -   [接口 interface](#接口)
 -   [泛型 generic](#泛型)
--   类型别名 type alias
--   内置高级类型
+-   [类型别名 type alias](类型别名)
+-   [内置高级类型](#内置高级类型)
 
 [type 和 interface的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
+[Typescript有什么冷门但是很好用的特性？](https://www.zhihu.com/question/276172039/answer/385498094)
+
 
 ## 类型注解
 
@@ -222,6 +224,10 @@ interface Person {
 type K1 = keyof Person; // "name" | "age" | "location"
 type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
 type K3 = keyof { [x: string]: Person };  // string
+
+// 2. in
+
+// 3. extends
 
 ```
 
