@@ -6,7 +6,9 @@ nav:
 order: 2
 group:
     title: 重学前端
----# javascript Atom（原子 ⚛）
+---
+
+# javascript Atom（原子 ⚛）
 
 ## Unicode 👀
 
