@@ -11,7 +11,7 @@ group:
 
 [官网](https://www.typescriptlang.org/)
 
- 一种写给人看的语言，最后顺便给机器运行一下。
+一种写给人看的语言，最后顺便给机器运行一下。
 
 # 安装和编译
 
@@ -124,23 +124,27 @@ function identity(num: number): number {
     -   [unknown](https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown)：[知乎一篇文章很好解释](https://zhuanlan.zhihu.com/p/104296850)，[例子](https://www.typescriptlang.org/play?#code/GYVwdgxgLglg9mABAQwBQCMBcBBATr5ATwB4BnKXGMAcwD4BKAbwChFEZgMA6AGwFMaUABaIAvOMQAGJqzaJcfKCFxIAjACYAzLIC+fHqT7tO6XgOrCxE1TLnzFypAHJyuJ7v2GWdhUpWIKED5dZh1mZn4oRAA3ZB4xFFQAbSdVJwBdeiA)
     -   never
 -   [内联类型注解](#内联类型注解)
--   关键字
-    -   索引类型 keyof
-    -   映射类型 in
-    -   继承类型 extends
--   类型断言
--   类型保护
+-   [关键字](#关键字)
+    -   keyof
+    -   in
+    -   extends
+-   [类型断言](#类型断言)
+-   [类型保护](#类型保护)
     -   typeof
     -   instanceof
--   联合类型 Union Types
--   交叉类型 Intersection Types
--   元组类型 Tuple
--   枚举类型 enum
+-   [联合类型 Union Types](#联合类型)
+-   [交叉类型 Intersection Types](#交叉类型)
+-   [元组类型 Tuple](#元组类型)
+-   [枚举类型 enum](#枚举类型)
 -   [函数 function](#函数)
 -   [接口 interface](#接口)
 -   [泛型 generic](#泛型)
--   类型别名 type alias
--   内置高级类型
+-   [类型别名 type alias](类型别名)
+-   [内置高级类型](#内置高级类型)
+
+[type 和 interface的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
+[Typescript有什么冷门但是很好用的特性？](https://www.zhihu.com/question/276172039/answer/385498094)
+
 
 ## 类型注解
 
@@ -207,8 +211,38 @@ let val = func({ a: '1', b: '2' });
 ```
 
 ## 关键字
+[never与keyof的妙用](https://juejin.cn/post/6844903826558812167)
 
 ```ts
+// 1. keyof ypescript的keyof关键字，将一个类型映射为它所有成员名称的联合类型
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type K1 = keyof Person; // "name" | "age" | "location"
+type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
+type K3 = keyof { [x: string]: Person };  // string
+
+// 2. in 用来遍历枚举类型：
+type Keys = "a" | "b" | "c"
+
+type Obj =  {
+  [p in Keys]: any
+} // -> { a: any, b: any, c: any }
+
+// 3. extends 有时候我们定义的泛型不想过于灵活或者说想继承某些类等，可以通过 extends 关键字添加泛型约束。
+
+interface ILengthwise {
+  length: number;
+}
+
+function loggingIdentity<T extends ILengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
 ```
 
 ## 函数
@@ -314,6 +348,7 @@ let val2 = func('1', 1); // 自动判断为 [string,number];
 有时候依靠类型推断并不能完全得出我想要的类型，而且该类型可能不准确，等等，这时候需要使用类型断言。
 
 ```ts
+1. as 语法
 interface Foo {
     bar: number;
     bas: string;
@@ -322,6 +357,10 @@ interface Foo {
 const foo = {} as Foo;
 foo.bar = 123;
 foo.bas = 'hello';
+
+2. 尖括号形式
+let someValue: any = "this is a string";
+let strLength: number = (<string>someValue).length;
 ```
 
 ## 类型保护
@@ -468,6 +507,23 @@ let myIdentity: GenericIdentityFn<number> = identity;
 // 4. 泛型类
 
 // 5. 泛型约束
+有时候，我们希望类型变量对应的类型上存在某些属性。这时，除非我们显式地将特定属性定义为类型变量，否则编译器不会知道它们的存在。
+
+function identity<T>(arg: T): T {
+  console.log(arg.length); // Error
+  return arg;
+}
+
+interface Length {
+  length: number;
+}
+
+function identity<T extends Length>(arg: T): T {
+  console.log(arg.length); // 可以获取length属性
+  return arg;
+}
+// T extends Length 用于告诉编译器，我们支持已经实现 Length 接口的任何类型。之后，当我们使用不含有 length 属性的对象作为参数调用 identity 函数时，TypeScript 会提示相关的错误信息
+
 ```
 
 ## 高级类型
