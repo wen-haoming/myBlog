@@ -3,6 +3,7 @@ title: 二进制
 nav:
     title: api
     path: /cs/base
+writing: true
 ---
 
 # 二进制

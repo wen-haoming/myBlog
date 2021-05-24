@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: 函数组件和类组件的比较
     path: /javascript/react
+writing: true
 ---
 
 # 函数组件和类组件的比较

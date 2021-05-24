@@ -3,6 +3,7 @@ title: git rebase
 nav:
     title: git rebase
     path: /cs/git
+writing: true
 ---
 
 # git rebase

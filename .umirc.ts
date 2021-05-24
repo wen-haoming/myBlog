@@ -23,77 +23,11 @@ export default defineConfig({
             },
         ],
     ],
-    navs: [
-        {
-            title: '前端',
-            children: [
-                {
-                    title: '基础',
-                    path: '/javascript/base',
-                },
-                // {
-                //     title: '业务',
-                //     path: '/javascript/business',
-                // },
-                {
-                    title: '浏览器API',
-                    path: '/javascript/api',
-                },
-                {
-                    title: 'react',
-                    path: '/javascript/react',
-                },
-                // {
-                //     title: 'vue',
-                //     path: '/javascript/vue',
-                // },
-                {
-                    title: 'webpack',
-                    path: '/javascript/webpack',
-                },
-                // {
-                //     title: 'node',
-                //     path: '/javascript/node',
-                // },
-                {
-                    title: '项目实践',
-                    path: '/javascript/project',
-                },
-            ],
-        },
-        {
-            title: 'python',
-            children: [
-                {
-                    title: 'python语言学习',
-                    path: '/python/base',
-                },
-                {
-                    title: '神经网络基础',
-                    path: '/python/neuralnetwork',
-                },
-                {
-                    title: 'Tensoflow',
-                    path: '/python/tensoflow',
-                },
-            ],
-        },
-        {
-            title: '计算机相关',
-            children: [
-                { title: '基础', path: '/cs/base' },
-                { title: 'git', path: '/cs/git' },
-            ],
-        },
-        {
-            title: '杂七杂八',
-            children: [
-                { title: '工作效率', path: '/order/efficiency' },
-                { title: '个人思考', path: '/order/think' },
-            ],
-        },
-    ],
     metas: [
+        {
+            name: 'keyword',
+            content: '温浩明',
+        },
         {
             name: 'keyword',
             content: 'whm,温浩明,Ming仔,博客,博客网站,生活,代码,',

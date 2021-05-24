@@ -5,6 +5,7 @@ nav:
     path: /javascript/base
 group:
     title: 实践
+writing: true
 ---
 
 # 发布订阅和观察者模式

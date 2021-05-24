@@ -6,6 +6,7 @@ nav:
 order: 1
 group:
     title: 重学前端
+writing: true
 ---
 
 ## 编程语言通识

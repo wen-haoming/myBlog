@@ -4,6 +4,7 @@ nav:
     title: 前置知识
     path: /javascript/base
 order: 1
+writing: true
 ---
 
 # 前端的前置知识

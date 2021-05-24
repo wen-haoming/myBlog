@@ -6,6 +6,7 @@ nav:
     path: /javascript/webpack
 group:
     title: webpack5
+writing: true
 ---
 
 # webpack5

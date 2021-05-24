@@ -3,6 +3,7 @@ title: 工作区与暂存区
 nav:
     title: 工作区与暂存区
     path: /cs/git
+writing: true
 ---
 
 # 工作区与暂存区

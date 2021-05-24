@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: 聊一聊 react 的优化
     path: /javascript/react
+writing: true
 ---
 
 # 聊一聊 react 的优化

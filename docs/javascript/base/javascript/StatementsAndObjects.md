@@ -6,6 +6,7 @@ nav:
 order: 4
 group:
     title: 重学前端
+writing: true
 ---
 
 # javascript 的语句和对象

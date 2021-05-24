@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: npm
     path: /javascript/project
+writing: true
 ---
 
 # npm

@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: react
     path: /javascript/react
+writing: true
 ---
 
 # react-hooks 简单实现

@@ -1,5 +1,4 @@
 ---
-
 title: 表达式
 nav:
 title: 表达式
@@ -7,9 +6,10 @@ path: /javascript/base
 order: 3
 group:
 title: 重学前端
+writing: true
 ---
 
-# javascript Expression（表达式）
+# ecma262 —— javascript Expression
 
 > ecma262 201 page
 

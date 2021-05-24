@@ -3,6 +3,7 @@ title: Python 控制结构
 nav:
     title: python
     path: /python/base
+writing: true
 ---
 
 # Python 控制结构

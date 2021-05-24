@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: react 的小知识点
     path: /javascript/react
+writing: true
 ---
 
 # react 的小知识点

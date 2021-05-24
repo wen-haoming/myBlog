@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: react fibeer
     path: /javascript/react
+writing: true
 ---
 
 # react fiber

@@ -7,6 +7,7 @@ nav:
 group:
     title: 个人思考
     order: 1
+writing: true
 ---
 
 ## 2020 的个人工作思考

@@ -5,6 +5,7 @@ nav:
     path: /javascript/base
 group:
     title: 实践
+writing: true
 ---
 
 # 闭包相关

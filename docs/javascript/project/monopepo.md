@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: monorepo
     path: /javascript/project
+writing: true
 ---
 
 # monorepo

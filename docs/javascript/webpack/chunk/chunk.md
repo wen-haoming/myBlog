@@ -6,6 +6,7 @@ nav:
     path: /javascript/webpack
 group:
     title: hash
+writing: true
 ---
 
 # 关于 webpack 的 文件指纹

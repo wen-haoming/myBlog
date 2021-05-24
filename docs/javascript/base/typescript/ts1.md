@@ -5,6 +5,7 @@ nav:
     path: /javascript/base
 group:
     title: typescript
+writing: true
 ---
 
 # Typescript
@@ -142,9 +143,8 @@ function identity(num: number): number {
 -   [类型别名 type alias](类型别名)
 -   [内置高级类型](#内置高级类型)
 
-[type 和 interface的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
-[Typescript有什么冷门但是很好用的特性？](https://www.zhihu.com/question/276172039/answer/385498094)
-
+[type 和 interface 的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
+[Typescript 有什么冷门但是很好用的特性？](https://www.zhihu.com/question/276172039/answer/385498094)
 
 ## 类型注解
 
@@ -211,7 +211,8 @@ let val = func({ a: '1', b: '2' });
 ```
 
 ## 关键字
-[never与keyof的妙用](https://juejin.cn/post/6844903826558812167)
+
+[never 与 keyof 的妙用](https://juejin.cn/post/6844903826558812167)
 
 ```ts
 // 1. keyof ypescript的keyof关键字，将一个类型映射为它所有成员名称的联合类型
@@ -222,27 +223,26 @@ interface Person {
 }
 
 type K1 = keyof Person; // "name" | "age" | "location"
-type K2 = keyof Person[];  // "length" | "push" | "pop" | "concat" | ...
-type K3 = keyof { [x: string]: Person };  // string
+type K2 = keyof Person[]; // "length" | "push" | "pop" | "concat" | ...
+type K3 = keyof { [x: string]: Person }; // string
 
 // 2. in 用来遍历枚举类型：
-type Keys = "a" | "b" | "c"
+type Keys = 'a' | 'b' | 'c';
 
-type Obj =  {
-  [p in Keys]: any
-} // -> { a: any, b: any, c: any }
+type Obj = {
+    [p in Keys]: any;
+}; // -> { a: any, b: any, c: any }
 
 // 3. extends 有时候我们定义的泛型不想过于灵活或者说想继承某些类等，可以通过 extends 关键字添加泛型约束。
 
 interface ILengthwise {
-  length: number;
+    length: number;
 }
 
 function loggingIdentity<T extends ILengthwise>(arg: T): T {
-  console.log(arg.length);
-  return arg;
+    console.log(arg.length);
+    return arg;
 }
-
 ```
 
 ## 函数

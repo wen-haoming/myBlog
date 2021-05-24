@@ -6,6 +6,7 @@ nav:
     path: /javascript/base
 group:
     title: 浏览器
+writing: true
 ---
 
 # 浏览器的事件

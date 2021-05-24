@@ -4,6 +4,7 @@ toc: menu
 nav:
     title: 性能优化
     path: /javascript/project
+writing: true
 ---
 
 # 前端性能优化

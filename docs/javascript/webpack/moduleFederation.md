@@ -6,6 +6,7 @@ nav:
     path: /javascript/webpack
 group:
     title: moduleFederation
+writing: true
 ---
 
 # Module Federation 模块联邦

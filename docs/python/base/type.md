@@ -1,3 +1,7 @@
+---
+writing: true
+---
+
 ## python 语言的诞生
 
 [Guido van Rossum](https://baike.baidu.com/item/%E5%90%89%E5%A4%9A%C2%B7%E8%8C%83%E7%BD%97%E8%8B%8F%E5%A7%86/328361?fromtitle=Guido%20van%20Rossum&fromid=3225314&fr=aladdin)，Python 语言创立者，20 世纪 90 年代初诞生，2002 年 python 2.x，2008 年 python 3.x

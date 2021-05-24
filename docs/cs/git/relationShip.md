@@ -3,6 +3,7 @@ title: git 对象彼此关系
 nav:
     title: git 对象彼此关系
     path: /cs/git
+writing: true
 ---
 
 # git 对象彼此关系

@@ -3,6 +3,7 @@ title: git 基础
 nav:
     title: git 基础
     path: /cs/git
+writing: true
 ---
 
 # git 基础

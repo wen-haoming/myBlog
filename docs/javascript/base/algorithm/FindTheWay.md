@@ -5,6 +5,7 @@ nav:
     path: /javascript/base
 group:
     title: 算法实践
+writing: true
 ---
 
 # 寻路问题

@@ -4,6 +4,7 @@ nav:
     title: 语言概述
     path: /javascript/base
 order: 2
+writing: true
 ---
 
 # JavaScript 语言

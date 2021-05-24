@@ -5,6 +5,7 @@ nav:
     path: /javascript/base
 group:
     title: typescript
+writing: true
 ---
 
 # Typescript

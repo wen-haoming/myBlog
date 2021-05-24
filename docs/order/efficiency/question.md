@@ -7,6 +7,7 @@ nav:
 group:
     title: question
     order: 1
+writing: true
 ---
 
 # 问题集锦

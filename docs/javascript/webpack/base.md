@@ -7,6 +7,7 @@ nav:
 group:
     title: webpack4基础以及优化方案
     order: 1
+writing: true
 ---
 
 # webpack 的基础知识和优化
