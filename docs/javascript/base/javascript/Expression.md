@@ -24,6 +24,8 @@ writing: true
 
 ### Member Expression 成员表达式
 
+成员表达式，更多是属性的访问形式，有以下几种形式
+
 -   a.b
 -   a[b]
 -   foo\`string\`
@@ -32,9 +34,31 @@ writing: true
 -   new.target
 -   new Foo()
 
+#### a.b
+
+属性的访问
+
+#### a[b]
+
+也是比较常用的特性，b 是一个变量，但是最后会类型转化为 string
+
+#### super.b
+
+```js
+super(1); //调用父类的构造函数的,将1传入构造函数实例化
+super.logNbSides(); //logNbSides是父类的静态方法
+delete super.foo; // super 上的属性将抛出异常
+```
+
+提供一种子类访问父类属性的能力，同时也可以调用父类的静态方法，（但是子类不能删除父类的方法 `delete super.a` ）
+
+#### supber['b']
+
+跟上述 a[b] 差不多，就不多说了。
+
 #### foo\`string\`
 
-函数后面拼接模板字符串
+模板字符除了嵌入表达式的字符串字面量，也可以是**函数执行**
 
 ```js
 function foo(...args) {
@@ -42,7 +66,14 @@ function foo(...args) {
 }
 
 foo`1 ${2}!45`; //[["1 ", "!45"], 2]
+// 把参数截取并且收集起来
 ```
+
+#### new Foo()
+
+常见的 new Foo() 的形式就不过多讨论，主要是如果碰见 `new a()()` 或者 `new new a()` 这两张形式，优先级是如何判断？
+
+具体可以查看下一节 的 [new Expression new 表达式](#new-expression--new-表达式)
 
 #### new.target
 
@@ -59,9 +90,37 @@ foo(); // undefined
 new foo(); // ƒ foo(){console.log(new.target)}
 ```
 
+<Alert>
+Member Expression，返回的都是 Reference 类型，那么 Reference 是什么东西呢？我们来看一个例子。
+</Alert>
+
+```js
+let o = { a: 1 };
+o.b = 2;
+
+delete o.b;
+delete 2;
+```
+
+有没有想过 `o.b` 其实和 `2` 这两个结果其实是等效的，但是我们都知道最后的表现形式是不相同的，那么 `o.b` 其实就是一个 [Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) 类型。
+
 ### new Expression new 表达式
 
-new foo()
+ecma 中优先级的设计由来
+
+new 可以有 `new new a()` 或者 `new a()()`
+
+```js
+function foo1() {}
+function foo2() {
+    return foo1;
+}
+new new foo2()();
+```
+
+从上面 `new new foo2` 中，js 的理解到底是 new (new foo2()) 还是 new (new foo2)() 呢？如果是后者的话，括号的参数势必会传给 `foo1` 的函数里面
+
+比如 new foo()，其中 `new` 关键字，new 表现形式会有两种，一种是没有括号的执行 `new foo` 另一种是携带参数的 `new foo(1,2)` **这两种的在没有参数的情况下得出的结果是相同的**，**但实际优先级是不一致的**，携带括号一方会更高，具体的运算符优先级可以查看[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table)
 
 ```js
 function foo1() {}
@@ -76,7 +135,6 @@ new foo2(); // function foo1(){}
 // 以下都是 foo1对象
 new (foo2())(); // foo1 {}
 new new foo2()(); // foo1 {}
-new new foo2()(); // foo1 {}
 
 // 传参的情况
 function foo3() {
@@ -94,34 +152,7 @@ new new foo4('foo4')();
 // 4 foo4
 // 3
 // foo3 {}
-```
 
-总结以上几种情况，拥有括号的会先去执行
-
-<Alert>
-Member Expression，返回的都是 Reference 类型，那么 Reference 是什么东西呢？我们来看一个例子。
-</Alert>
-
-```js
-let o = { a: 1 };
-o.b = 2;
-
-delete o.b;
-delete 2;
-```
-
-有没有想过 `o.b` 其实和 `2` 这两个结果其实是等效的，但是我们都知道最后的表现形式是不相同的，那么 `o.b` 其实就是一个 [Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) 类型。
-
-### call Expression 调用表达式
-
--   call
-    -   foo()
-    -   super()
-    -   foo()['b']
-    -   foo().b
-    -   foo()`abc`
-
-```js
 class foo {
     constructor() {
         this.b = 1;
@@ -134,9 +165,32 @@ foo['b'] = function() {};
 new foo['b'](); // foo.b {}
 ```
 
-从以上这三种 **Expression** 都统称为 `Left Handside Expression`，只要有函数调用参与的 Call Expression，它的优先级就比 new 更低
+总结以上几种情况，拥有括号的会先去执行
 
-总结：
+### call Expression 调用表达式
+
+调用表达式中，只要能够执行，就会有 [[call]] 这个属性，通常以下几种表现形式：
+
+-   call
+    -   foo()
+    -   super()
+    -   foo()['b']
+    -   foo().b
+    -   foo()\`abc\`
+
+```js
+foo(); // foo 函数的执行
+
+super(); //调用父级的构造函数
+
+foo()['b']; // foo 函数执行后也能返回值的成员变量属性
+
+foo().b; // 同理
+```
+
+## 以上这三种总结
+
+从以上这三种 **Expression** 都统称为 `Left Handside Expression`，只要有函数调用参与的 Call Expression，它的优先级就比 new 更低
 
 ```js
 function foo() {}
