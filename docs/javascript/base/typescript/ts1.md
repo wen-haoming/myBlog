@@ -1,18 +1,16 @@
 ---
-title: 语法
+title: typescript - 快速上手
 nav:
-    title: 语法
     path: /javascript/base
 group:
     title: typescript
-writing: true
 ---
 
 # Typescript
 
 [官网](https://www.typescriptlang.org/)
 
-一种写给人看的语言，最后顺便给机器运行一下。
+一种写给人看的语言，最后顺便给机器编译然后运行一下。
 
 # 安装和编译
 
@@ -526,15 +524,174 @@ function identity<T extends Length>(arg: T): T {
 
 ```
 
-## 高级类型
+泛型的语法格式简单总结如下：
+
+```
+类型名<泛型列表> 具体类型定义
+```
+
+## 泛型工具
+
+### Partial<T>
+
+能够把泛型中的所有属性变成可选
 
 ```ts
-// 1. Parial
-// 2. Required
-// 3. Pick
-// 4. Record
-// 5. Mutable
-// 6. Readonly
-// 7. ReturnType
-// 8. Extract
+type Partial<T> = {
+    [key in keyof T]?: T[key];
+};
+```
+
+```ts
+type Animal = {
+    name: string;
+    category: string;
+    age: number;
+    eat: () => number;
+};
+```
+
+使用 `Partial` 后
+
+```ts
+type PartOfAnimal = Partial<Animal>;
+const partOfAnimal: PartOfAnimal = { category: 'str' }; //不会报警告，能够只使用一种类型
+
+const obj: Record<string, string | number> = {
+    name: 'zhangsan',
+    tag: '打工人',
+};
+```
+
+### Pick
+
+此工具的作用是将 T 类型中的 K 键列表提取出来，生成新的子键值对类型。
+
+```ts
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+};
+```
+
+```ts
+type Animal = {
+    name: string;
+    category: string;
+    age: number;
+    eat: () => number;
+};
+```
+
+使用 `Pick` 后
+
+```ts
+// 组合成一个新的属性集合只有 name 和 age
+const bird: Pick<Animal, 'name' | 'age'> = { name: 'bird', age: 1 };
+```
+
+### Record<K, T>
+
+它会将一个类型的所有属性值都映射到另一个类型上并创造一个新的类型
+
+```ts
+type Record<K extends keyof any, T> = {
+    [key in K]: T;
+};
+```
+
+```ts
+type petsGroup = 'dog' | 'cat' | 'fish';
+interface IPetInfo {
+    name: string;
+    age: number;
+}
+```
+
+使用 `Record` 后
+
+```ts
+type IPets = Record<petsGroup, IPetInfo>;
+
+const animalsInfo: IPets = {
+    dog: {
+        name: 'dogName',
+        age: 2,
+    },
+    cat: {
+        name: 'catName',
+        age: 3,
+    },
+    fish: {
+        name: 'fishName',
+        age: 5,
+    },
+};
+```
+
+### Exclude<T, U>
+
+此工具是在 T 类型中，去除 T 类型和 U 类型的交集，返回剩余的部分。
+
+```ts
+type Exclude<T, U> = T extends U ? never : T;
+```
+
+源码中可以理解为当 T 存在 U 的时候就不返回，如果不存在的属性时候就返回 T，也就是不是交集的属性。
+
+使用 `Exclude` 后
+
+```ts
+type T1 = Exclude<'a' | 'b' | 'c', 'a' | 'b'>; // "c"
+type T2 = Exclude<string | number | (() => void), Function>; // string | number
+```
+
+### Omit<T, K>
+
+此工具可认为是适用于键值对对象的 Exclude，它会去除类型 T 中包含 K 的键值对。
+
+```ts
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[p];
+};
+type Exclude<T, U> = T extends U ? never : T;
+
+type Omit = Pick<T, Exclude<keyof T, K>>;
+```
+
+使用 `Omit` 后
+
+```ts
+type Animal = {
+    name: string;
+    category: string;
+    age: number;
+    eat: () => number;
+};
+const OmitAnimal: Omit<Animal, 'name' | 'age'> = {
+    category: 'lion',
+    eat: () => {
+        console.log('eat');
+    },
+};
+```
+
+### ReturnType
+
+能够获取函数的返回值类型
+
+```ts
+type ReturnType<T extends (...args: any) => any> = T extends (
+    ...args: any
+) => infer R
+    ? R
+    : any;
+```
+
+使用 `ReturnType` 后
+
+```ts
+function foo(x: string | number): string | number {
+    /*..*/
+}
+type FooType = ReturnType<foo>; // string | number
 ```
