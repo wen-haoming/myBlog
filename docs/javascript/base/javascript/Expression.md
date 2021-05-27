@@ -11,6 +11,11 @@ writing: true
 
 # ecma262 —— javascript Expression
 
+1. 认识 javascript 的 Expression
+2. new 的优先级
+3. 使用 void 代替 undefined
+4. 装箱与拆箱
+
 > ecma262 201 page
 
 ## Grammar（语法）
@@ -20,7 +25,9 @@ writing: true
     -   [new Expression](#new-expression-new-表达式) new 表达式
     -   [call Expression](#call-expression-调用表达式) 调用表达式
 -   right Handside Expression
-    -   [Update]()
+    -   ...
+
+## Left Handside Expression
 
 ### Member Expression 成员表达式
 
@@ -106,19 +113,9 @@ delete 2;
 
 ### new Expression new 表达式
 
-ecma 中优先级的设计由来
+<Alert type="info" style={{fontSize:25}}>你知道 ecma 中 new 运算符的优先级是如何设计的吗？，我们可以推理一下</Alert>
 
-new 可以有 `new new a()` 或者 `new a()()`
-
-```js
-function foo1() {}
-function foo2() {
-    return foo1;
-}
-new new foo2()();
-```
-
-从上面 `new new foo2` 中，js 的理解到底是 new (new foo2()) 还是 new (new foo2)() 呢？如果是后者的话，括号的参数势必会传给 `foo1` 的函数里面
+第一种情况：
 
 比如 new foo()，其中 `new` 关键字，new 表现形式会有两种，一种是没有括号的执行 `new foo` 另一种是携带参数的 `new foo(1,2)` **这两种的在没有参数的情况下得出的结果是相同的**，**但实际优先级是不一致的**，携带括号一方会更高，具体的运算符优先级可以查看[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table)
 
@@ -167,6 +164,46 @@ new foo['b'](); // foo.b {}
 
 总结以上几种情况，拥有括号的会先去执行
 
+第二种情况：
+
+new 可以有 `new new a()` 或者 `new a()()`
+
+```js
+function foo1(y) {
+    console.log('foo1',y)
+}
+function foo2(x) {
+     console.log('foo2',x)
+    return foo1;
+}
+
+new new foo2(); // ?
+
+new （new foo2)(); // ?
+new (new foo2()) // ?
+```
+
+从上面 `new new foo2` 中，js 的理解到底是 new (new foo2()) 还是 new (new foo2)() 呢？如果是后者的话，括号的参数势必会传给 `foo1` 的函数里面
+
+那么最后的执行结果是如何的呢？？
+
+```js
+new new foo2(1);
+// foo2 1
+// foo1 undefined
+// foo1 {}
+new (new foo2(1))
+// foo2 1
+// foo1 undefined
+// foo1 {}
+new （new foo2)(1);
+// foo2 undefined
+// foo1 1
+// foo1 {}
+```
+
+那么得出的结论就是 `new new foo2(1)` 最后是与 `new (new foo2(1))` 相同的，其中反映出这设计更符合人的直觉。
+
 ### call Expression 调用表达式
 
 调用表达式中，只要能够执行，就会有 [[call]] 这个属性，通常以下几种表现形式：
@@ -199,6 +236,8 @@ foo2.b = foo;
 new foo2().b; // undefined  这里可以解析成 (new foo2()).b ,这样就可以认为 new Expression > Call Expression
 new foo2.b(); // foo {}      这里可以解析成 new foo2.b()   ,这样就可以认为 Member Expression > new Expression
 ```
+
+## right Handside Expression
 
 ### Update Expression 更新表达式
 
