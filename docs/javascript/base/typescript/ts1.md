@@ -466,6 +466,8 @@ square.penWidth = 5.0;
 
 软件工程中，我们不仅要创建一致的定义良好的 API，同时也要考虑可重用性。 组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型，这在创建大型系统时为你提供了十分灵活的功能。
 
+### 各种表达式下泛型的使用形式
+
 ```ts
 // 1. 函数声明定义泛型
 function identity(arg: number): number {
@@ -501,27 +503,18 @@ function identity<Type>(arg: Type): Type {
 let myIdentity: GenericIdentityFn<number> = identity;
 
 // 3. 类型别名使用泛型
+type Dog<T> = { name: string; type: T };
+const dog: Dog<number> = { name: 'ww', type: 20 };
 
 // 4. 泛型类
-
-// 5. 泛型约束
-有时候，我们希望类型变量对应的类型上存在某些属性。这时，除非我们显式地将特定属性定义为类型变量，否则编译器不会知道它们的存在。
-
-function identity<T>(arg: T): T {
-  console.log(arg.length); // Error
-  return arg;
+class Cat<T> {
+    private type: T;
+    constructor(type: T) {
+        this.type = type;
+    }
 }
-
-interface Length {
-  length: number;
-}
-
-function identity<T extends Length>(arg: T): T {
-  console.log(arg.length); // 可以获取length属性
-  return arg;
-}
-// T extends Length 用于告诉编译器，我们支持已经实现 Length 接口的任何类型。之后，当我们使用不含有 length 属性的对象作为参数调用 identity 函数时，TypeScript 会提示相关的错误信息
-
+// 使用
+const cat: Cat<number> = new Cat<number>(20); // 或简写 const cat = new Cat(20)
 ```
 
 泛型的语法格式简单总结如下：
@@ -529,6 +522,40 @@ function identity<T extends Length>(arg: T): T {
 ```
 类型名<泛型列表> 具体类型定义
 ```
+
+### 泛型约束
+
+有时候，我们希望类型变量对应的类型上存在某些属性。这时，除非我们显式地将特定属性定义为类型变量，否则编译器不会知道它们的存在。
+
+```ts
+function identity<T>(arg: T): T {
+    console.log(arg.length); // Error
+    return arg;
+}
+
+interface Length {
+    length: number;
+}
+
+function identity<T extends Length>(arg: T): T {
+    console.log(arg.length); // 可以获取length属性
+    return arg;
+}
+```
+
+### 泛型条件
+
+extends，其实也可以当做一个三元运算符，如下：
+
+```ts
+T extends U? X: Y
+```
+
+举个例子，如果我们把 `X` 换成 `T`，如此形式：`T extends U? T: never`。
+
+此时返回的 `T`，是满足原来的 `T` 中包含 `U` 的部分，可以理解为 `T` 和 `U` 的交集。
+
+### 泛型推断 infer
 
 ## 泛型工具
 
