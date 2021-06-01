@@ -9,7 +9,7 @@ title: 重学前端
 writing: true
 ---
 
-# ecma262 —— javascript Expression
+# javascript Expression（表达式语句）
 
 1. 认识 javascript 的 Expression
 2. new 的优先级

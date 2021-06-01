@@ -1,12 +1,12 @@
 ---
-title: 事件
+title: 浏览器的事件
 toc: menu
 nav:
-    title: 事件
+    title: 浏览器的事件
     path: /javascript/base
 group:
     title: 浏览器
-writing: true
+writing: false
 ---
 
 # 浏览器的事件
