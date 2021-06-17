@@ -127,6 +127,7 @@ function identity(num: number): number {
 -   [泛型 generic](#泛型)
 -   [类型别名 type alias](类型别名)
 -   [内置高级类型](#内置高级类型)
+-   [Namespaced](#Namespaced)
 
 [type 和 interface 的区别](https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types)
 [Typescript 有什么冷门但是很好用的特性？](https://www.zhihu.com/question/276172039/answer/385498094)
@@ -708,6 +709,57 @@ function foo(x: string | number): string | number {
     /*..*/
 }
 type FooType = ReturnType<foo>; // string | number
+```
+
+## Namespaced
+
+方便组织各种 ts 的类型，分隔出来，尽管类型名字相同也能共存(命名空间不同)
+
+[Namespaced](https://www.typescriptlang.org/docs/handbook/namespaces.html#namespacing)
+
+基础使用
+使用属性访问，来访问 namescpace 的属性
+
+```ts
+import React from 'react';
+const App: React.FC<{}> = () => {};
+//上面的 React.FC 代表访问 React 的 namescpace
+```
+
+如果有当前文件的 namescpace 有其他文件使用，那么就需要引用 `/// <reference path="xxxx" />` 的方式
+
+Validation.ts
+
+```ts
+namespace Validation {
+    export interface StringValidator {
+        isAcceptable(s: string): boolean;
+    }
+}
+```
+
+LettersOnlyValidator.ts
+
+```ts
+/// <reference path="Validation.ts" />
+namespace Validation {
+    const lettersRegexp = /^[A-Za-z]+$/;
+    export class LettersOnlyValidator implements StringValidator {
+        isAcceptable(s: string) {
+            return lettersRegexp.test(s);
+        }
+    }
+}
+```
+
+如果有时候我们需要访问 某个类型集合中某个属性呢？
+
+```ts
+interface xiaoming {
+    name: string;
+    age: number;
+}
+let age: xiaoming['age'] = 18;
 ```
 
 ## 模块 - module
